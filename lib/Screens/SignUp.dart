@@ -1,11 +1,17 @@
 import 'dart:ui';
 
+import 'package:farmerApp/AuthenticationSystem/Auth.dart';
+import 'package:farmerApp/Screens/Loading.dart';
 import 'package:flutter/material.dart';
 
 import 'Theme.dart';
 
 class SignUp extends StatefulWidget {
   static String id = 'SignUp';
+
+  final Function toggleView;
+  SignUp({this.toggleView});
+
   final greenAccent = const Color(0xff1ef6e3);
   final darkBlue = const Color(0xff1f1a30);
   final darkGray = const Color(0xff1e1e1e);
@@ -17,14 +23,23 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+
+  final _formKey = GlobalKey<FormState>();
+  String email = "";
+  String password = "";
+  String name = "";
+  String error = "";
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    return SafeArea(
+    return loading? Loading(): SafeArea(
       child: Scaffold(
           body: SingleChildScrollView(
         child: Form(
+          key: _formKey,
           child: Container(
             color: LightTheme.starWhite,
             height: _height,
@@ -94,12 +109,18 @@ class _SignUpState extends State<SignUp> {
                                     size: 20,
                                   ),
                                 ),
-                                hintText: 'User Name',
+                                hintText: 'Name',
                                 hintStyle: TextStyle(
                                     color: LightTheme.darkGray.withOpacity(0.7),
                                     fontFamily: "Montserrat"),
                                 filled: false,
                               ),
+                              onChanged: (val){
+                                setState(() {
+                                  name = val;
+                                });
+                              },
+                              validator: (val) => val.isEmpty? 'Enter your name' : null,
                             ),
                           ),
                         ),
@@ -137,6 +158,12 @@ class _SignUpState extends State<SignUp> {
                                     fontFamily: "Montserrat"),
                                 filled: false,
                               ),
+                              onChanged: (val){
+                                setState(() {
+                                  email = val;
+                                });
+                              },
+                              validator: (val) => val.isEmpty? 'Please enter a valid email' : null,
                             ),
                           ),
                         ),
@@ -174,6 +201,12 @@ class _SignUpState extends State<SignUp> {
                                 filled: false,
                               ),
                               obscureText: true,
+                              onChanged: (val){
+                                setState(() {
+                                  password = val;
+                                });
+                              },
+                              validator: (val) => val.length < 6? 'Password must be 6+ characters' : null,
                             ),
                           ),
                         ),
@@ -211,6 +244,9 @@ class _SignUpState extends State<SignUp> {
                                 filled: false,
                               ),
                               obscureText: true,
+                              onChanged: (val){
+                              },
+                              validator: (val) => val != password? 'Passwords dont match' : null,
                             ),
                           ),
                         ),
@@ -220,6 +256,28 @@ class _SignUpState extends State<SignUp> {
                         ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                           child: GestureDetector(
+                            onTap: () async {
+                              setState(() {
+                                loading = true;
+                              });
+                              if (_formKey.currentState.validate()) {
+                                dynamic result = await AuthServices().registerWithEmailAndPassword(name,email, password);
+                                if (result == null) {
+                                  setState(() {
+                                    loading = false;
+                                    error =
+                                    'Please enter a valid Email Id and corresponding Password';
+                                  });
+                                }
+                              }
+                              else{
+                                setState(() {
+                                  loading = false;
+                                  error =
+                                  'Please enter a valid Email Id and corresponding Password';
+                                });
+                              }
+                            },
                             child: Container(
                               color: Colors.blueAccent,
                               height: 50,
@@ -237,6 +295,12 @@ class _SignUpState extends State<SignUp> {
                               ),
                             ),
                           ),
+                        ),
+                        Text(error,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontStyle: FontStyle.italic
+                            )
                         ),
                         Spacer(
                           flex: 2,
@@ -263,7 +327,9 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  widget.toggleView();
+                                },
                                 child: Container(
                                   height: 40,
                                   child: Center(
