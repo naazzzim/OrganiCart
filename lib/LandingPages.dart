@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'Auth.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({Key key}) : super(key: key);
@@ -21,7 +20,7 @@ class SignInPage extends StatelessWidget {
           children: [
             OutlineButton(
               onPressed: () async {
-                await context.read<AuthenticationService>().loginGoogle();
+                //await context.read<AuthenticationService>().loginGoogle();
               },
               child: Text("Sign In"),
             )

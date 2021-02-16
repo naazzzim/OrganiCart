@@ -6,6 +6,10 @@ import 'Theme.dart';
 
 class SignUp extends StatefulWidget {
   static String id = 'SignUp';
+
+  final Function toggleView;
+  SignUp({this.toggleView});
+
   final greenAccent = const Color(0xff1ef6e3);
   final darkBlue = const Color(0xff1f1a30);
   final darkGray = const Color(0xff1e1e1e);

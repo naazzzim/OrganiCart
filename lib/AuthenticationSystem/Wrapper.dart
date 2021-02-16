@@ -2,6 +2,9 @@ import 'package:farmerApp/AuthenticationSystem/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:farmerApp/Screens/Page1.dart';
 
+import 'package:farmerApp/Screens/SignIn.dart';
+import 'package:farmerApp/Screens/SignUp.dart';
+
 class Wrapper extends StatefulWidget {
   static String id = 'Wrapper';
   @override
@@ -23,7 +26,7 @@ class _WrapperState extends State<Wrapper> {
         }
         else {
           if(hasAccount)
-            return Login(toggleView: toggleView);
+            return SignIn(toggleView: toggleView);
           else
             return SignUp(toggleView: toggleView);
         }

@@ -1,7 +1,8 @@
+import 'package:farmerApp/AuthenticationSystem/Wrapper.dart';
+import 'package:farmerApp/Screens/Loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './LandingPages.dart';
-import 'Auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,29 +10,75 @@ import 'Screens/Page1.dart';
 import 'Screens/SignIn.dart';
 import 'Screens/SignUp.dart';
 
-Future<void> main() async {
+void main(){
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(FarmerApp());
 }
 
-class MyApp extends StatelessWidget {
+class FarmerApp extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(FirebaseAuth.instance),
-        ),
-        StreamProvider(
-          create: (context) =>
-              context.read<AuthenticationService>().authStateChanges,
-        )
-      ],
-      child: MaterialApp(
-        home: Scaffold(body: SignIn()),
-      ),
-    );
-
-  }
+  _FarmerAppState createState() => _FarmerAppState();
 }
+
+class _FarmerAppState extends State<FarmerApp> {
+
+
+    bool _initialized = false;
+    bool _error = false;
+
+    void initializeFlutterFire() async {
+      try {
+        await Firebase.initializeApp();
+        setState((){
+          _initialized = true;
+        });
+      } catch (e) {
+        print(e.toString());
+        setState(() {
+          _error = true;
+        });
+      }
+    }
+
+    @override
+    void initState() {
+      initializeFlutterFire();
+      super.initState();
+    }
+
+
+
+    @override
+    Widget build(BuildContext context) {
+
+      if (_error) {  //Page when there is no internet
+
+        return MaterialApp(
+            home: Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Color(0xff4DD172),
+                  title: Text('Something went wrong'),
+                  brightness: Brightness.dark,
+                ),
+                body: Center(
+                  child: Text('Are you connected to the Network?'),
+                )));
+      }
+
+      if (!_initialized) {
+
+        return Loading();
+      }
+
+      return MaterialApp(
+        routes: {
+          SignUp.id:(context)=>SignUp(),
+          Wrapper.id:(context) => Wrapper(),
+        },
+        initialRoute: Wrapper.id,
+      );
+
+    }
+  }
+
+
