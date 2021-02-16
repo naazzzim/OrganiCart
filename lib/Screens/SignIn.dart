@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:farmerApp/AuthenticationSystem/Auth.dart';
+import 'package:farmerApp/Screens/Loading.dart';
 import 'package:flutter/material.dart';
 
 
@@ -22,14 +24,22 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+
+  final _formKey = GlobalKey<FormState>();
+  String email = "";
+  String password = "";
+  String error = "";
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    return SafeArea(
+    return loading? Loading():SafeArea(
       child: Scaffold(
           body: SingleChildScrollView(
             child: Form(
+              key: _formKey,
               child: Container(
                 color: LightTheme.starWhite,
                 height: _height,
@@ -105,6 +115,12 @@ class _SignInState extends State<SignIn> {
                                         fontFamily: "Montserrat"),
                                     filled: false,
                                   ),
+                                  onChanged: (val){
+                                    setState(() {
+                                      email = val;
+                                    });
+                                  },
+                                  validator: (val) => val.isEmpty? 'Please enter a valid email' : null,
                                 ),
                               ),
                             ),
@@ -142,6 +158,12 @@ class _SignInState extends State<SignIn> {
                                     filled: false,
                                   ),
                                   obscureText: true,
+                                  onChanged: (val){
+                                    setState(() {
+                                      password = val;
+                                    });
+                                  },
+                                  validator: (val) => val.length < 6? 'Password must be 6+ characters' : null,
                                 ),
                               ),
                             ),
@@ -151,6 +173,27 @@ class _SignInState extends State<SignIn> {
                             ClipRRect(
                               borderRadius: BorderRadius.all(Radius.circular(15)),
                               child: GestureDetector(
+                                onTap: () async {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  if(_formKey.currentState.validate()){
+                                    dynamic result = await AuthServices().loginWithEmailAndPassword(email, password);
+                                    if(result == null){
+                                      setState(() {
+                                        loading = false;
+                                        error =  'Please enter a valid Email Id and corresponding Password';
+                                      });
+                                    }
+                                  }
+                                  else{
+                                    setState(() {
+                                      loading = false;
+                                      error =
+                                      'Please enter a valid Email Id and corresponding Password';
+                                    });
+                                  }
+                                },
                                 child: Container(
                                   color: Colors.blueAccent,
                                   height: 50,
@@ -168,6 +211,12 @@ class _SignInState extends State<SignIn> {
                                   ),
                                 ),
                               ),
+                            ),
+                            Text(error,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontStyle: FontStyle.italic
+                                )
                             ),
                             Spacer(
                               flex: 2,
@@ -194,7 +243,9 @@ class _SignInState extends State<SignIn> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      widget.toggleView();
+                                    },
                                     child: Container(
                                       height: 40,
                                       child: Center(
