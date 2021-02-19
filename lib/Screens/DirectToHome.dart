@@ -19,7 +19,6 @@ class _DirectToHomeState extends State<DirectToHome> {
     // TODO: implement initState
     UserDatabase().getUsers().then((value){
       setState(() {
-        print('hi');
         user = value;
         loading = false;
       });

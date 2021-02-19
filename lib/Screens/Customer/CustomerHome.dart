@@ -3,6 +3,7 @@ import 'package:farmerApp/AuthenticationSystem/Auth.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -88,7 +89,9 @@ class _CustomerHomeState extends State<CustomerHome> {
                             delegate: SliverChildBuilderDelegate(
                                   (context, index) {
                                 return GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+
+                                  },
                                   child: Card(
                                     color: Colors.blueAccent.withOpacity(0.4),
                                     shape: RoundedRectangleBorder(
@@ -111,7 +114,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                 }),
 
             StreamBuilder(
-                //stream: FirebaseFirestore.instance.collection('Markets').doc(widget.market_uid).collection('Orders').snapshots(),
+                stream: FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser.email).collection('Orders').snapshots(),
                 builder: (context,snapshot){
 
                   orders = [];
@@ -121,7 +124,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   }
 
                   for(DocumentSnapshot doc in snapshot.data.documents){
-                    orders.add(OrderClass(customerName: doc['Name'],productMap: doc['Product-Quantity'],timeStamp: doc['TimeStamp']));
+                    orders.add(OrderClass(marketName: doc['Name'],productMap: doc['Product-Quantity'],timeStamp: doc['TimeStamp']));
                   }
 
                   return Container(
@@ -141,7 +144,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
                                     child: ListTile(
-                                      title: Text(orders[index].customerName),
+                                      title: Text(orders[index].marketName),
                                       subtitle: Text(DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString()),
                                     ),
                                   ),
@@ -156,12 +159,6 @@ class _CustomerHomeState extends State<CustomerHome> {
                   );
                 })
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context,AddNewProduct.id);
-          },
-          child: Icon(Icons.add),
         ),
       ),
     );

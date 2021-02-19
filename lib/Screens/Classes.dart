@@ -19,7 +19,8 @@ class OrderClass{
    String customerName;
    Map<dynamic,dynamic> productMap;
    Timestamp timeStamp;
-   OrderClass({this.customerName,this.productMap,this.timeStamp});
+   String marketName;
+   OrderClass({this.customerName,this.productMap,this.timeStamp,this.marketName});
 }
 
 class MarketClass{
