@@ -14,6 +14,7 @@ class ProducerMarketPage extends StatefulWidget {
 
 class _ProducerMarketPageState extends State<ProducerMarketPage> {
   List<ProductClass> products = [];
+  List<OrderClass> orders = [];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -101,34 +102,21 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
             StreamBuilder(
                 stream: FirebaseFirestore.instance.collection('Markets').doc(widget.market_uid).collection('Orders').snapshots(),
                 builder: (context,snapshot){
+
+                  orders = [];
+
+                  if(!snapshot.hasData){
+                    return Loading();
+                  }
+
+                  for(DocumentSnapshot doc in snapshot.data.documents){
+                    orders.add(OrderClass(customerName: doc['Name'],productMap: doc['Product-Quantity'],timeStamp: doc['TimeStamp']));
+                  }
+
               return Container(
                 height: MediaQuery.of(context).size.height,
                 child: CustomScrollView(
                   slivers: [
-                    SliverPadding(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        sliver: SliverToBoxAdapter(
-                          child: Container(
-                            height: 100,
-                            width: MediaQuery.of(context).size.width - 20,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              children: [
-                                Text('Location : '),
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 1.5,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
-                                    child: SelectableText(
-                                      'This is my Location, testing testing testing testing',
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )),
                     SliverPadding(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       sliver: SliverList(
@@ -142,13 +130,13 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
                                 child: ListTile(
-                                  title: Text('Name : Product Name'),
-                                  subtitle: Text('Price : Rs 50'),
+                                  title: Text(orders[index].customerName),
+                                  subtitle: Text(DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString()),
                                 ),
                               ),
                             );
                           },
-                          childCount: 50,
+                          childCount: orders.length,
                         ),
                       ),
                     )

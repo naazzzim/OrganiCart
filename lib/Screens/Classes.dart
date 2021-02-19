@@ -1,4 +1,6 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserClass{
   String name;
   String userType;
@@ -11,4 +13,11 @@ class ProductClass{
   int price;
   String additionalInfo;
   ProductClass({this.name,this.additionalInfo,this.price});
+}
+
+class OrderClass{
+   String customerName;
+   Map<dynamic,dynamic> productMap;
+   Timestamp timeStamp;
+   OrderClass({this.customerName,this.productMap,this.timeStamp});
 }
