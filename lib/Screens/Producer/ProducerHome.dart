@@ -2,36 +2,26 @@ import 'package:farmerApp/AuthenticationSystem/Auth.dart';
 import 'package:farmerApp/Database/UserDatabase.dart';
 import 'package:farmerApp/Screens/Producer/AddNewMarket.dart';
 import 'package:farmerApp/Screens/Classes.dart';
-import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/Producer/ProducerMarketPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProducerHome extends StatefulWidget {
+  UserClass user;
+  ProducerHome({this.user});
   @override
   _ProducerHomeState createState() => _ProducerHomeState();
 }
 
 class _ProducerHomeState extends State<ProducerHome> {
-  UserClass user;
-  bool loading = true;
-  @override
-  void initState() {
-    // TODO: implement initState
-    UserDatabase().getUsers().then((value){
-      setState(() {
-        user = value;
-        loading = false;
-      });
-    });
-    super.initState();
-  }
+
+
   @override
   Widget build(BuildContext context) {
-    return loading? Loading(): Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(
-            user.name + '\'s Markets'
+            widget.user.name + '\'s Markets'
         ),
         actions: <Widget>[
           FlatButton(
@@ -47,12 +37,12 @@ class _ProducerHomeState extends State<ProducerHome> {
       body: Padding(
         padding: const EdgeInsets.only(left: 10,right: 10),
         child: ListView.builder(
-            itemCount: user.markets.length,
+            itemCount: widget.user.markets.length,
             itemBuilder: (context,index){
               return GestureDetector(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return ProducerMarketPage(marketName: user.markets[index]['Name'],market_uid: user.markets[index]['uid'],);
+                    return ProducerMarketPage(marketName: widget.user.markets[index]['Name'],market_uid: widget.user.markets[index]['uid'],);
                   }));
                 },
                 child: Card(
@@ -61,7 +51,7 @@ class _ProducerHomeState extends State<ProducerHome> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ListTile(
-                    title: Text(user.markets[index]['Name']),
+                    title: Text(widget.user.markets[index]['Name']),
                   ),
                 ),
               );
@@ -69,7 +59,7 @@ class _ProducerHomeState extends State<ProducerHome> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.pushNamed(context, AddNewMarket.id,arguments: user.name);
+          Navigator.pushNamed(context, AddNewMarket.id,arguments: widget.user.name);
         },
       ),
     );
