@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmerApp/Screens/Classes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserDatabase{
@@ -19,6 +20,19 @@ class UserDatabase{
         'Markets': [],
       });
     }
+  }
+
+  Future<UserClass> getUsers() async {
+    String name;
+    String userType;
+    List<dynamic> markets;
+    await users.doc(FirebaseAuth.instance.currentUser.email).get().then((DocumentSnapshot doc){
+      name = doc['Name'];
+      userType = doc['UserType'];
+      if(doc['UserType'] == 'Producer')
+        markets = doc['Markets'];
+    });
+    return UserClass(name: name,userType: userType,markets: markets);
   }
 
 }

@@ -1,27 +1,53 @@
 import 'package:farmerApp/AuthenticationSystem/Auth.dart';
+import 'package:farmerApp/Database/UserDatabase.dart';
 import 'package:farmerApp/Screens/AddNewMarket.dart';
+import 'package:farmerApp/Screens/Classes.dart';
+import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/Market.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Page1 extends StatefulWidget {
+class ProducerHome extends StatefulWidget {
   @override
-  _Page1State createState() => _Page1State();
+  _ProducerHomeState createState() => _ProducerHomeState();
 }
 
-class _Page1State extends State<Page1> {
+class _ProducerHomeState extends State<ProducerHome> {
+  UserClass user;
+  bool loading = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    UserDatabase().getUsers().then((value){
+      setState(() {
+        user = value;
+        loading = false;
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading? Loading(): Scaffold(
       appBar: AppBar(
         title: Text(
-          'Title'
+            user.name + '\'s Markets'
         ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Sign Out",style: TextStyle(
+                color: Colors.white
+            ),),
+            onPressed: () async {
+              await AuthServices().signOut();
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10,right: 10),
         child: ListView.builder(
-          itemCount: 50,
+            itemCount: user.markets.length,
             itemBuilder: (context,index){
               return GestureDetector(
                 onTap: (){
@@ -35,12 +61,11 @@ class _Page1State extends State<Page1> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ListTile(
-                    title: Text('Title'),
-                    subtitle: Text('sub Title'),
+                    title: Text(user.markets[index]),
                   ),
                 ),
               );
-        }),
+            }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

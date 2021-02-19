@@ -1,4 +1,5 @@
 import 'package:farmerApp/AuthenticationSystem/Auth.dart';
+import 'package:farmerApp/Screens/Producer/ProducerHome.dart';
 import 'package:flutter/material.dart';
 import 'package:farmerApp/Screens/Page1.dart';
 
@@ -22,7 +23,7 @@ class _WrapperState extends State<Wrapper> {
       stream: AuthServices().user,
       builder: (context, user){
         if(user.hasData) {
-          return Page1();
+          return ProducerHome();
         }
         else {
           if(hasAccount)

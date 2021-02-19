@@ -30,7 +30,7 @@ class _SignUpState extends State<SignUp> {
   String name = "";
   String error = "";
   bool loading = false;
-  String userType = "Producer"; //Default
+  String userType = "Customer"; //Default
 
   @override
   Widget build(BuildContext context) {
