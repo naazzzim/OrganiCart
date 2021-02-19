@@ -35,4 +35,16 @@ class UserDatabase{
     return UserClass(name: name,userType: userType,markets: markets);
   }
 
+  Future<void> addMarketToUser(String name, String uid) async {
+    Map<dynamic,dynamic> data = {'Name': name,'uid': uid};
+    List<dynamic> dbData;
+    await users.doc(FirebaseAuth.instance.currentUser.email).get().then((DocumentSnapshot doc){
+      dbData = doc['Markets'];
+    });
+    dbData.add(data);
+    await users.doc(FirebaseAuth.instance.currentUser.email).update({
+      'Markets': dbData
+    });
+  }
+
 }

@@ -45,7 +45,7 @@ class _Page1State extends State<Page1> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Navigator.push(context, MaterialPageRoute(builder: (context){
-            return AddNew();
+            return AddNewMarket();
           }));
         },
       ),

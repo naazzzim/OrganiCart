@@ -1,24 +1,41 @@
+import 'package:farmerApp/Database/MarketDatabase.dart';
+import 'package:farmerApp/Screens/Loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Theme.dart';
 
-class AddNew extends StatefulWidget {
+class AddNewMarket extends StatefulWidget {
+  static String id = 'AddNewMarket';
   @override
-  _AddNewState createState() => _AddNewState();
+  _AddNewMarketState createState() => _AddNewMarketState();
 }
 
-class _AddNewState extends State<AddNew> {
+class _AddNewMarketState extends State<AddNewMarket> {
+
+  String ownerName = "";
+  String marketName;
+  String location;
+  bool loading = false;
+  String error = "";
+
+  TextEditingController marketNameController = TextEditingController();
+  TextEditingController LocationController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    ownerName = ModalRoute.of(context).settings.arguments;
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    return SafeArea(child: Scaffold(
+    final _formKey = GlobalKey<FormState>();
+
+    return loading? Loading():SafeArea(child: Scaffold(
       appBar: AppBar(
-        title: Text('Add new'),
+        title: Text('Add new Market'),
       ),
         body: Center(
           child: Form(
+            key: _formKey,
             child: Container(
               height: _height/1.5,
               width: _width,
@@ -44,6 +61,7 @@ class _AddNewState extends State<AddNew> {
                               color: LightTheme.darkGray.withOpacity(0.3),
                               padding: EdgeInsets.fromLTRB(10, 2, 5, 5),
                               child: TextFormField(
+                                controller: marketNameController,
                                 style: TextStyle(
                                     color: LightTheme.darkGray, fontSize: 14),
                                 keyboardType: TextInputType.phone,
@@ -69,6 +87,12 @@ class _AddNewState extends State<AddNew> {
                                       fontFamily: "Montserrat"),
                                   filled: false,
                                 ),
+                                  validator: (val) => val.isEmpty? 'Field must be filled':null,
+                                  onChanged: (value){
+                                    setState(() {
+                                      marketName = value;
+                                    });
+                                  }
                               ),
                             ),
                           ),
@@ -81,6 +105,7 @@ class _AddNewState extends State<AddNew> {
                               color: LightTheme.darkGray.withOpacity(0.3),
                               padding: EdgeInsets.fromLTRB(10, 2, 5, 5),
                               child: TextFormField(
+                                controller: LocationController,
                                 style: TextStyle(
                                     color: LightTheme.darkGray, fontSize: 14),
                                 decoration: InputDecoration(
@@ -105,7 +130,12 @@ class _AddNewState extends State<AddNew> {
                                       fontFamily: "Montserrat"),
                                   filled: false,
                                 ),
-                                obscureText: true,
+                                  validator: (val) => val.isEmpty? 'Field must be filled':null,
+                                  onChanged: (value){
+                                    setState(() {
+                                      location = value;
+                                    });
+                                  }
                               ),
                             ),
                           ),
@@ -120,8 +150,21 @@ class _AddNewState extends State<AddNew> {
               ),
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-
+        onPressed: () async {
+          setState(() {
+            loading = true;
+          });
+          if(_formKey.currentState.validate()){
+            Navigator.pop(context);
+            await MarketDatabase().addMarket(marketName,ownerName);
+          }
+          else{
+            setState(() {
+              loading = false;
+              error =
+              'Please enter a valid Email Id and corresponding Password';
+            });
+          }
         },
         child: Icon(
           Icons.done,

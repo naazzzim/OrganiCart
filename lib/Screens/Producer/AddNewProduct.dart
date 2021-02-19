@@ -1,5 +1,6 @@
 import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Screens/Classes.dart';
+import 'package:farmerApp/Screens/Loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,13 +19,15 @@ class _AddNewProductState extends State<AddNewProduct> {
   String additionalInfo = "";
   String market_uid;
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
+  String error = "";
 
   @override
   Widget build(BuildContext context) {
     market_uid = ModalRoute.of(context).settings.arguments;
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    return SafeArea(child: Scaffold(
+    return loading? Loading():SafeArea(child: Scaffold(
       appBar: AppBar(
         title: Text('Add a Product'),
       ),
@@ -186,8 +189,20 @@ class _AddNewProductState extends State<AddNewProduct> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Navigator.pop(context);
-          await MarketDatabase().addProductToMarket(market_uid, ProductClass(name: productName,price: productPrice,additionalInfo: additionalInfo));
+          setState(() {
+            loading = true;
+          });
+          if(_formKey.currentState.validate()){
+            Navigator.pop(context);
+            await MarketDatabase().addProductToMarket(market_uid, ProductClass(name: productName,price: productPrice,additionalInfo: additionalInfo));
+            }
+          else{
+            setState(() {
+              loading = false;
+              error =
+              'Please enter a valid Email Id and corresponding Password';
+            });
+          }
         },
         child: Icon(
           Icons.done,

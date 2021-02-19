@@ -68,10 +68,8 @@ class _ProducerHomeState extends State<ProducerHome> {
             }),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Navigator.push(context, MaterialPageRoute(builder: (context){
-            return AddNew();
-          }));
+        onPressed: (){
+          Navigator.pushNamed(context, AddNewMarket.id,arguments: user.name);
         },
       ),
     );
