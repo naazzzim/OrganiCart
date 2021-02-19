@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomerHome extends StatefulWidget {
+  static String id = 'CustomerHome';
   UserClass user;
   CustomerHome({this.user});
   @override

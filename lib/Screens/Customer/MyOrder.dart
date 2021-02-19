@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmerApp/AuthenticationSystem/Wrapper.dart';
 import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Database/UserDatabase.dart';
 import 'package:farmerApp/Screens/Classes.dart';
+import 'package:farmerApp/Screens/Customer/CustomerHome.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +42,7 @@ class _MyOrderState extends State<MyOrder> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          Navigator.popUntil(context, ModalRoute.withName(Wrapper.id));
           await MarketDatabase().placeOrder(widget.market.uid, OrderClass(customerName: user.name,order: widget.order,timeStamp: Timestamp.now(),isCompleted: false,marketName: widget.market.marketName));
         },
         child: Icon(
