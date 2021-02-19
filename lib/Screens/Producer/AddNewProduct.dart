@@ -15,7 +15,7 @@ class AddNewProduct extends StatefulWidget {
 class _AddNewProductState extends State<AddNewProduct> {
 
   String productName = "";
-  int productPrice;
+  String productPrice = "";
   String additionalInfo = "";
   String market_uid;
   final _formKey = GlobalKey<FormState>();
@@ -129,7 +129,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                           validator: (val) => val.isEmpty? 'Field must be filled':null,
                           onChanged: (value){
                             setState(() {
-                              productPrice = int.parse(value);
+                              productPrice = value;
                             });
                           },
                           keyboardType: TextInputType.number,

@@ -1,4 +1,5 @@
 import 'package:farmerApp/AuthenticationSystem/Wrapper.dart';
+import 'package:farmerApp/Screens/Customer/MarketView.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/MarketListUser.dart';
 import 'package:farmerApp/Screens/Producer/AddNewMarket.dart';
@@ -74,6 +75,7 @@ class _FarmerAppState extends State<FarmerApp> {
         Wrapper.id: (context) => Wrapper(),
         AddNewProduct.id: (context) => AddNewProduct(),
         AddNewMarket.id: (context) => AddNewMarket(),
+        MarketView.id: (context) => MarketView()
       },
         initialRoute: Wrapper.id,
 //      home: Wrapper(),

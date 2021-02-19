@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmerApp/AuthenticationSystem/Auth.dart';
 import 'package:farmerApp/Screens/Classes.dart';
+import 'package:farmerApp/Screens/Customer/MarketView.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ class CustomerHome extends StatefulWidget {
 class _CustomerHomeState extends State<CustomerHome> {
   List<MarketClass> markets = [];
   List<OrderClass> orders = [];
+  Map<dynamic,dynamic> yourOrder = {};
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -90,7 +92,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                                   (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-
+                                    Navigator.pushNamed(context, MarketView.id,arguments: markets[index]);
                                   },
                                   child: Card(
                                     color: Colors.blueAccent.withOpacity(0.4),
@@ -114,7 +116,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                 }),
 
             StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser.email).collection('Orders').snapshots(),
+                stream: FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser.email).collection('UserOrders').snapshots(),
                 builder: (context,snapshot){
 
                   orders = [];
@@ -124,7 +126,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   }
 
                   for(DocumentSnapshot doc in snapshot.data.documents){
-                    orders.add(OrderClass(marketName: doc['Name'],productMap: doc['Product-Quantity'],timeStamp: doc['TimeStamp']));
+                    orders.add(OrderClass(marketName: doc['MarketName'],order: doc['Order'],timeStamp: doc['TimeStamp'],isCompleted: doc['isCompleted']));
                   }
 
                   return Container(

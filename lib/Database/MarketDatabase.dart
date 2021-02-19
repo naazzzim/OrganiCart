@@ -23,4 +23,14 @@ class MarketDatabase{
     await UserDatabase().addMarketToUser(marketName, id);
   }
 
+  Future<void> placeOrder(String market_id,OrderClass order) async {
+    dynamic id =  markets.doc(market_id).collection('Orders').doc().id;
+    await markets.doc(market_id).collection('Orders').doc(id).set({
+      'Name': order.customerName,
+      'Order': order.order,
+      'TimeStamp': order.timeStamp,
+    });
+    await UserDatabase().addOrderToUser(id, order);
+  }
+
 }

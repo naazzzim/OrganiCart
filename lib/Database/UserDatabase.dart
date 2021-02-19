@@ -47,4 +47,14 @@ class UserDatabase{
     });
   }
 
+  Future<void> addOrderToUser(String id, OrderClass order) async {
+    await users.doc(FirebaseAuth.instance.currentUser.email).collection('UserOrders').add({
+      'MarketName': order.marketName,
+      'Order': order.order,
+      'TimeStamp': order.timeStamp,
+      'isCompleted': order.isCompleted,
+      'Order-id': id
+    });
+  }
+
 }

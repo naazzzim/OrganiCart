@@ -10,17 +10,18 @@ class UserClass{
 
 class ProductClass{
   String name;
-  int price;
+  String price;
   String additionalInfo;
   ProductClass({this.name,this.additionalInfo,this.price});
 }
 
 class OrderClass{
    String customerName;
-   Map<dynamic,dynamic> productMap;
+   List<dynamic> order;
    Timestamp timeStamp;
    String marketName;
-   OrderClass({this.customerName,this.productMap,this.timeStamp,this.marketName});
+   bool isCompleted;
+   OrderClass({this.customerName,this.order,this.timeStamp,this.marketName,this.isCompleted});
 }
 
 class MarketClass{
