@@ -21,3 +21,10 @@ class OrderClass{
    Timestamp timeStamp;
    OrderClass({this.customerName,this.productMap,this.timeStamp});
 }
+
+class MarketClass{
+  String marketName;
+  String ownerName;
+  String uid;
+  MarketClass({this.marketName,this.ownerName,this.uid});
+}
