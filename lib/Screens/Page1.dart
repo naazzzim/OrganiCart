@@ -1,6 +1,6 @@
 import 'package:farmerApp/AuthenticationSystem/Auth.dart';
 import 'package:farmerApp/Screens/AddNewMarket.dart';
-import 'package:farmerApp/Screens/Market.dart';
+import 'package:farmerApp/Screens/Producer/ProducerMarketPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,7 @@ class _Page1State extends State<Page1> {
               return GestureDetector(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return Market();
+                    return ProducerMarketPage();
                   }));
                 },
                 child: Card(

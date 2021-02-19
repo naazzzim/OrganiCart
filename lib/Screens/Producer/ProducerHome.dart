@@ -3,7 +3,7 @@ import 'package:farmerApp/Database/UserDatabase.dart';
 import 'package:farmerApp/Screens/AddNewMarket.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
-import 'package:farmerApp/Screens/Market.dart';
+import 'package:farmerApp/Screens/Producer/ProducerMarketPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -52,7 +52,7 @@ class _ProducerHomeState extends State<ProducerHome> {
               return GestureDetector(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return Market();
+                    return ProducerMarketPage(marketName: user.markets[index]['Name'],market_uid: user.markets[index]['uid'],);
                   }));
                 },
                 child: Card(
