@@ -61,7 +61,7 @@ class _ProducerHomeState extends State<ProducerHome> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ListTile(
-                    title: Text(user.markets[index]),
+                    title: Text(user.markets[index]['Name']),
                   ),
                 ),
               );
