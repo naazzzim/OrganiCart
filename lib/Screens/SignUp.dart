@@ -30,6 +30,7 @@ class _SignUpState extends State<SignUp> {
   String name = "";
   String error = "";
   bool loading = false;
+  String userType = "Customer"; //Default
 
   @override
   Widget build(BuildContext context) {
@@ -261,7 +262,7 @@ class _SignUpState extends State<SignUp> {
                                 loading = true;
                               });
                               if (_formKey.currentState.validate()) {
-                                dynamic result = await AuthServices().registerWithEmailAndPassword(name,email, password);
+                                dynamic result = await AuthServices().registerWithEmailAndPassword(name,email, password,userType);
                                 if (result == null) {
                                   setState(() {
                                     loading = false;

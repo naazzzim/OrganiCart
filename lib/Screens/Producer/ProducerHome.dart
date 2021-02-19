@@ -1,32 +1,48 @@
 import 'package:farmerApp/AuthenticationSystem/Auth.dart';
+import 'package:farmerApp/Database/UserDatabase.dart';
 import 'package:farmerApp/Screens/Producer/AddNewMarket.dart';
+import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Producer/ProducerMarketPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Page1 extends StatefulWidget {
+class ProducerHome extends StatefulWidget {
+  UserClass user;
+  ProducerHome({this.user});
   @override
-  _Page1State createState() => _Page1State();
+  _ProducerHomeState createState() => _ProducerHomeState();
 }
 
-class _Page1State extends State<Page1> {
+class _ProducerHomeState extends State<ProducerHome> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Title'
+            widget.user.name + '\'s Markets'
         ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Sign Out",style: TextStyle(
+                color: Colors.white
+            ),),
+            onPressed: () async {
+              await AuthServices().signOut();
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10,right: 10),
         child: ListView.builder(
-          itemCount: 50,
+            itemCount: widget.user.markets.length,
             itemBuilder: (context,index){
               return GestureDetector(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return ProducerMarketPage();
+                    return ProducerMarketPage(marketName: widget.user.markets[index]['Name'],market_uid: widget.user.markets[index]['uid'],);
                   }));
                 },
                 child: Card(
@@ -35,18 +51,15 @@ class _Page1State extends State<Page1> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   child: ListTile(
-                    title: Text('Title'),
-                    subtitle: Text('sub Title'),
+                    title: Text(widget.user.markets[index]['Name']),
                   ),
                 ),
               );
-        }),
+            }),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Navigator.push(context, MaterialPageRoute(builder: (context){
-            return AddNewMarket();
-          }));
+        onPressed: (){
+          Navigator.pushNamed(context, AddNewMarket.id,arguments: widget.user.name);
         },
       ),
     );

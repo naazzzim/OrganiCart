@@ -1,5 +1,5 @@
-import 'package:farmerApp/Screens/MarketView.dart';
-import 'package:farmerApp/Screens/MyOrders.dart';
+import 'package:farmerApp/Screens/Customer/MarketView.dart';
+import 'package:farmerApp/Screens/Customer/MyOrder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +44,7 @@ class _MarketListUserState extends State<MarketListUser> {
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context){
-            return MyOrders();
+            return MyOrder();
           }));
         },
       ),
