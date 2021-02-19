@@ -71,8 +71,8 @@ class _FarmerAppState extends State<FarmerApp> {
         SignUp.id: (context) => SignUp(),
         Wrapper.id: (context) => Wrapper(),
       },
-//        initialRoute: Wrapper.id,
-      home: MapPage(),
+        initialRoute: Wrapper.id,
+//      home: Wrapper(),
     );
   }
 }

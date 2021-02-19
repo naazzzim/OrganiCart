@@ -1,3 +1,4 @@
+import 'package:farmerApp/AuthenticationSystem/Auth.dart';
 import 'package:farmerApp/Screens/AddNewMarket.dart';
 import 'package:farmerApp/Screens/Market.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,10 +43,11 @@ class _Page1State extends State<Page1> {
         }),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context){
-            return AddNew();
-          }));
+        onPressed: () async {
+          await AuthServices().signOut();
+          // Navigator.push(context, MaterialPageRoute(builder: (context){
+          //   return AddNew();
+          // }));
         },
       ),
     );
