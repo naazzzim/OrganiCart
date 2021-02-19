@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
+import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -147,7 +148,9 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context,AddNewProduct.id,arguments: widget.market_uid);
+          },
           child: Icon(Icons.add),
         ),
       ),

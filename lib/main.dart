@@ -1,6 +1,7 @@
 import 'package:farmerApp/AuthenticationSystem/Wrapper.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/MarketListUser.dart';
+import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './LandingPages.dart';
@@ -70,6 +71,7 @@ class _FarmerAppState extends State<FarmerApp> {
       routes: {
         SignUp.id: (context) => SignUp(),
         Wrapper.id: (context) => Wrapper(),
+        AddNewProduct.id: (context) => AddNewProduct(),
       },
         initialRoute: Wrapper.id,
 //      home: Wrapper(),
