@@ -3,14 +3,13 @@ import 'package:farmerApp/AuthenticationSystem/Wrapper.dart';
 import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Database/UserDatabase.dart';
 import 'package:farmerApp/Screens/Classes.dart';
-import 'package:farmerApp/Screens/Customer/CustomerHome.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyOrder extends StatefulWidget {
-  List<dynamic> order;
-  MarketClass market;
+  final List<dynamic> order;
+  final MarketClass market;
   MyOrder({this.order,this.market});
   @override
   _MyOrderState createState() => _MyOrderState();
@@ -21,7 +20,6 @@ class _MyOrderState extends State<MyOrder> {
   UserClass user;
   @override
   void initState() {
-    // TODO: implement initState
     UserDatabase().getUsers().then((value){
       setState(() {
         user = value;

@@ -20,10 +20,9 @@ class _FireMapState extends State<FireMap> {
   Location location = new Location();
   List<Marker> myMarker = [];
   GoogleMapController mapController;
-  CameraPosition _currentposition;
+  CameraPosition _currentPosition;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -43,7 +42,7 @@ class _FireMapState extends State<FireMap> {
           cameraTargetBounds: CameraTargetBounds.unbounded,
           buildingsEnabled: true,
           onCameraMove: (CameraPosition position) {
-            _setcurrentposition(position);
+            _setCurrentPosition(position);
           },
           markers: Set.from(myMarker),
         ),
@@ -51,7 +50,7 @@ class _FireMapState extends State<FireMap> {
           child: FlatButton(
             color: Colors.amber,
             child: Icon(Icons.pin_drop),
-            onPressed: () => _addMarker(_currentposition.target),
+            onPressed: () => _addMarker(_currentPosition.target),
           ),
           bottom: 50,
           right: 80,
@@ -89,8 +88,8 @@ class _FireMapState extends State<FireMap> {
     _animateToUser();
   }
 
-  void _setcurrentposition(CameraPosition position) {
-    _currentposition = position;
+  void _setCurrentPosition(CameraPosition position) {
+    _currentPosition = position;
   }
 
   void _animateToUser() async {
