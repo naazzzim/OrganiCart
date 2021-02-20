@@ -5,6 +5,7 @@ import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/MarketListUser.dart';
 import 'package:farmerApp/Screens/Producer/AddNewMarket.dart';
 import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
+import 'package:farmerApp/Screens/Producer/OrderDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './LandingPages.dart';
@@ -77,7 +78,8 @@ class _FarmerAppState extends State<FarmerApp> {
         AddNewProduct.id: (context) => AddNewProduct(),
         AddNewMarket.id: (context) => AddNewMarket(),
         MarketView.id: (context) => MarketView(),
-        CustomerHome.id: (context) => CustomerHome()
+        CustomerHome.id: (context) => CustomerHome(),
+        OrderDetails.id: (context) => OrderDetails(),
       },
         initialRoute: Wrapper.id,
 //      home: Wrapper(),

@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'Theme.dart';
+
 class Loading extends StatelessWidget {
+  static String id = 'Loading';
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).canvasColor,
-        body: Center(
-          child: SpinKitRotatingCircle(
-            color: Theme.of(context).accentColor,
-            size: 50.0,
-          ),
-        ));
+    return MaterialApp(
+      home: Scaffold(
+          backgroundColor: DarkTheme.darkGray,
+          body: Center(
+              child: SpinKitRotatingCircle(
+                color: DarkTheme.deepIndigoAccent,
+                size: 50.0,
+              )
+          )
+      ),
+    );
   }
 }
