@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:farmerApp/AuthenticationSystem/Wrapper.dart';
 import 'package:farmerApp/Screens/Customer/CustomerHome.dart';
 import 'package:farmerApp/Screens/Customer/MarketView.dart';
@@ -7,8 +9,6 @@ import 'package:farmerApp/Screens/Producer/AddNewMarket.dart';
 import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
 import 'package:farmerApp/Screens/Producer/OrderDetails.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import './LandingPages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Screens/MapPage.dart';
@@ -80,8 +80,9 @@ class _FarmerAppState extends State<FarmerApp> {
         MarketView.id: (context) => MarketView(),
         CustomerHome.id: (context) => CustomerHome(),
         OrderDetails.id: (context) => OrderDetails(),
+        FireMap.id: (context) => FireMap()
       },
-        initialRoute: Wrapper.id,
+      initialRoute: Wrapper.id,
 //      home: Wrapper(),
     );
   }
