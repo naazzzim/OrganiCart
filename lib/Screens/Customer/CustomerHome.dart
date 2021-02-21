@@ -118,7 +118,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                         marketName: doc['MarketName'],
                         order: doc['Order'],
                         timeStamp: doc['TimeStamp'],
-                        isCompleted: doc['isCompleted'],geohash: doc['Location']['geohash'],geopoint: doc['Location']['geopoint']));
+                        isCompleted: doc['isCompleted'],geohash: doc['Location']['geohash'],geopoint: doc['Location']['geopoint'],market_order_id: doc['Market_order_id'],customer_order_id: doc['Customer_order_id'],market_uid: doc['Market_uid']));
                   }
 
                   return Container(

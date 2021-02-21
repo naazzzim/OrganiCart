@@ -40,11 +40,18 @@ class MarketDatabase{
       'TimeStamp': order.timeStamp,
       'Location': {'geohash':order.geohash,'geopoint':order.geopoint},
     });
-    await UserDatabase().addOrderToUser(id, order);
+    await UserDatabase().addOrderToUser(market_id,id, order);
   }
 
-  Future<void> moveToHistory(OrderClass order) async {
-
+  Future<void> OrderDelivered(OrderClass order) async {
+    await markets.doc(order.market_uid).collection('Orders').doc(order.market_order_id).delete();
+    await markets.doc(order.market_uid).collection('History').doc(order.market_order_id).set({
+      'Name': order.customerName,
+      'Order': order.order,
+      'TimeStamp': order.timeStamp,
+      'Location': {'geohash':order.geohash,'geopoint':order.geopoint},
+    });
+    await UserDatabase().updateOrderStatus(order);
   }
 
 }

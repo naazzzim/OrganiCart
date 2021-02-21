@@ -1,3 +1,4 @@
+import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/ViewLocation.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,11 +15,14 @@ class CustomerOrderDetails extends StatefulWidget {
 
 class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
   OrderClass order;
-
+  double totalPrice = 0;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     order = ModalRoute.of(context).settings.arguments;
+    for(Map<dynamic,dynamic> element in order.order){
+      totalPrice += double.parse(element['TotalPrice']);
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Order Details'),
@@ -115,7 +119,7 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
                             ),
                             Spacer(),
                             Text(
-                              'Rs. ' + 100.toString(),
+                              'Rs. ' + totalPrice.toString(),
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w400
@@ -137,8 +141,9 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.done),
-        onPressed: (){
-
+        onPressed: ()async{
+          Navigator.pop(context);
+          await MarketDatabase().OrderDelivered(order);
         },
       ),
     );

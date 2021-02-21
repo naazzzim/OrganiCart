@@ -47,14 +47,23 @@ class UserDatabase{
     });
   }
 
-  Future<void> addOrderToUser(String id, OrderClass order) async {
-    await users.doc(FirebaseAuth.instance.currentUser.email).collection('UserOrders').add({
+  Future<void> addOrderToUser(String market_uid,String market_order_id, OrderClass order) async {
+    dynamic id = users.doc(FirebaseAuth.instance.currentUser.email).collection('UserOrders').doc().id;
+    await users.doc(FirebaseAuth.instance.currentUser.email).collection('UserOrders').doc(id).set({
       'MarketName': order.marketName,
       'Order': order.order,
       'TimeStamp': order.timeStamp,
       'isCompleted': order.isCompleted,
-      'Order-id': id,
+      'Market_uid': market_uid,
+      'Market_order_id': market_order_id,
+      'Customer_order_id': id,
       'Location': {'geohash':order.geohash,'geopoint':order.geopoint},
+    });
+  }
+
+  Future<void> updateOrderStatus(OrderClass order) async {
+    await users.doc(FirebaseAuth.instance.currentUser.email).collection('UserOrders').doc(order.customer_order_id).update({
+      'isCompleted': true,
     });
   }
 
