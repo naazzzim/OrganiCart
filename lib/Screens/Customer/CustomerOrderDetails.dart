@@ -1,6 +1,6 @@
 import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Screens/Classes.dart';
-import 'package:farmerApp/Screens/ViewLocation.dart';
+import 'package:farmerApp/Screens/Location/ViewLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

@@ -2,7 +2,7 @@ import 'package:farmerApp/AuthenticationSystem/Auth.dart';
 import 'package:farmerApp/Screens/DirectToHome.dart';
 import 'package:farmerApp/Screens/Producer/ProducerHome.dart';
 import 'package:flutter/material.dart';
-import 'package:farmerApp/Screens/Page1.dart';
+import 'package:farmerApp/Screens/Archived/Page1.dart';
 
 import 'package:farmerApp/Screens/SignIn.dart';
 import 'package:farmerApp/Screens/SignUp.dart';

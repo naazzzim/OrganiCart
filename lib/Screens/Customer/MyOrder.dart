@@ -4,7 +4,7 @@ import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Database/UserDatabase.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
-import 'package:farmerApp/Screens/SetLocation.dart';
+import 'package:farmerApp/Screens/Location/SetLocation.dart';
 import 'package:farmerApp/Screens/Theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
