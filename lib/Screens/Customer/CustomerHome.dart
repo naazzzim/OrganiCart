@@ -118,7 +118,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                         marketName: doc['MarketName'],
                         order: doc['Order'],
                         timeStamp: doc['TimeStamp'],
-                        isCompleted: doc['isCompleted']));
+                        isCompleted: doc['isCompleted'],geohash: doc['Location']['geohash'],geopoint: doc['Location']['geopoint']));
                   }
 
                   return Container(
@@ -143,6 +143,10 @@ class _CustomerHomeState extends State<CustomerHome> {
                                     child: ListTile(
                                       title: Text(orders[index].marketName),
                                       subtitle: Text(DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString().split(':')[0] + ':' + DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString().split(':')[1]),
+                                      trailing: Text(orders[index].isCompleted? "Delivered":"Pending",
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.italic
+                                      ),),
                                     ),
                                   ),
                                 );

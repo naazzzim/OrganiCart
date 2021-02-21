@@ -51,7 +51,7 @@ class _MyOrderState extends State<MyOrder> {
                 order: widget.order,
                 timeStamp: Timestamp.now(),
                 isCompleted: false,
-                marketName: widget.market.marketName),{'geohash':location.geohash,'geopoint':location.geopoint});
+                marketName: widget.market.marketName,geohash:location.geohash,geopoint:location.geopoint));
           }
         },
         child: Icon(

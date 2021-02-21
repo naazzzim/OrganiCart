@@ -53,7 +53,8 @@ class UserDatabase{
       'Order': order.order,
       'TimeStamp': order.timeStamp,
       'isCompleted': order.isCompleted,
-      'Order-id': id
+      'Order-id': id,
+      'Location': {'geohash':order.geohash,'geopoint':order.geopoint},
     });
   }
 

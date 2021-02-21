@@ -32,13 +32,13 @@ class MarketDatabase{
     await UserDatabase().addMarketToUser(marketName, id);
   }
 
-  Future<void> placeOrder(String market_id,OrderClass order,Map<dynamic,dynamic> location) async {
+  Future<void> placeOrder(String market_id,OrderClass order) async {
     dynamic id =  markets.doc(market_id).collection('Orders').doc().id;
     await markets.doc(market_id).collection('Orders').doc(id).set({
       'Name': order.customerName,
       'Order': order.order,
       'TimeStamp': order.timeStamp,
-      'Location': location,
+      'Location': {'geohash':order.geohash,'geopoint':order.geopoint},
     });
     await UserDatabase().addOrderToUser(id, order);
   }

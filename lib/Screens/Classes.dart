@@ -20,8 +20,10 @@ class OrderClass{
    List<dynamic> order;
    Timestamp timeStamp;
    String marketName;
+   GeoPoint geopoint;
+   String geohash;
    bool isCompleted;
-   OrderClass({this.customerName,this.order,this.timeStamp,this.marketName,this.isCompleted});
+   OrderClass({this.customerName,this.order,this.timeStamp,this.marketName,this.isCompleted,this.geopoint,this.geohash});
 }
 
 class MarketClass{
