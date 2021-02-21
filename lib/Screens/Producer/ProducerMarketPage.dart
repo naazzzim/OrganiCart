@@ -75,7 +75,7 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
                         slivers: [
                           SliverPadding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                              const EdgeInsets.fromLTRB(10, 15, 10, 5),
                               sliver: SliverToBoxAdapter(
                                 child: FlatButton(onPressed: (){
                                   Navigator.pushNamed(context, ViewLocation.id,
@@ -104,26 +104,6 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
                                     )
                                 )
 
-                                // ListTile(
-                                //   title: Text(
-                                //     'Location : ',
-                                //     style: TextStyle(
-                                //         fontWeight: FontWeight.w500,
-                                //         color: DarkTheme.darkGray,
-                                //         fontSize: 18),
-                                //   ),
-                                //   subtitle: Padding(
-                                //     padding: const EdgeInsets.only(left:10.0,top: 10.0),
-                                //     child: Text(
-                                //       'My location is unknown.........testing testing........testing testing testing ',
-                                //       maxLines: 4,
-                                //       style: TextStyle(
-                                //           fontWeight: FontWeight.w300,
-                                //           color: DarkTheme.darkGray,
-                                //           fontSize: 14),
-                                //     ),
-                                //   ),
-                                // ),
                               )),
                           SliverPadding(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
