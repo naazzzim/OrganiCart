@@ -14,6 +14,7 @@ class FireMap extends StatefulWidget {
 }
 
 class _FireMapState extends State<FireMap> {
+  bool markerset = false;
   Location location = new Location();
   List<Marker> myMarker = [];
   GoogleMapController mapController;
@@ -50,6 +51,7 @@ class _FireMapState extends State<FireMap> {
         body: Stack(
           children: [
             GoogleMap(
+              onTap: _addMarker,
               initialCameraPosition: CameraPosition(
                   target: LatLng(pos.latitude, pos.longitude), zoom: 14),
               onMapCreated: _onMapCreated,
@@ -65,24 +67,6 @@ class _FireMapState extends State<FireMap> {
               },
               markers: Set.from(myMarker),
             ),
-            Positioned(
-              child: FlatButton(
-                color: Colors.amber,
-                child: Icon(Icons.pin_drop),
-                onPressed: () => _addMarker(
-                    _currentPosition.target, "Market $i", "Snippet $i"),
-              ),
-              bottom: 50,
-              right: 80,
-            ),
-            Positioned(
-                child: FlatButton(
-                  child: Icon(Icons.home_filled),
-                  color: Colors.blueAccent,
-                  onPressed: _animateToUser,
-                ),
-                bottom: 50,
-                left: 20),
             Positioned(
               child: Slider(
                 min: 10.0,
@@ -102,9 +86,14 @@ class _FireMapState extends State<FireMap> {
     }
   }
 
-  _addMarker(LatLng point, String name, String snippet) {
-    _addGeopoint(point, name, snippet);
-    i = i + 1;
+  _addMarker(LatLng point) {
+    if (!markerset) {
+      markerset = true;
+      String name = 'Market $i';
+      String snippet = 'Market $i';
+      _addGeopoint(point, name, snippet);
+      i = i + 1;
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -115,11 +104,6 @@ class _FireMapState extends State<FireMap> {
 
   void _setCurrentPosition(CameraPosition position) {
     _currentPosition = position;
-  }
-
-  void _animateToUser() async {
-    mapController.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(pos.latitude, pos.longitude), zoom: 14)));
   }
 
   Future<DocumentReference> _addGeopoint(
