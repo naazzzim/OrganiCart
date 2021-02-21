@@ -1,5 +1,6 @@
 import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Screens/Loading.dart';
+import 'package:farmerApp/Screens/MapPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -99,22 +100,53 @@ class _AddNewMarketState extends State<AddNewMarket> {
                                   ),
                                   alignment: Alignment(-0.95,0),
                                 ),
-                                TextFormField(
-//                                  controller: locationController,
-                                  style: TextStyle(
-                                      color: LightTheme.darkGray, fontSize: 14),
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 10.0),
-                                    filled: false,
-                                  ),
-                                    validator: (val) => val.isEmpty? 'Field must be filled':null,
-                                    onChanged: (value){
-                                      setState(() {
-                                        location = value;
-                                      });
-                                    }
-                                ),
+                               SizedBox(height: 15,),
+                               Center(
+                                 child: Text(
+                                   location == null? '' : location,
+                                   style: TextStyle(
+                                       color: LightTheme.darkGray,
+                                       fontWeight: FontWeight.w300,
+                                       fontSize: 14),
+                                 ),
+                               ),
+                                SizedBox(height: 20,),
+                                FlatButton(onPressed: (){
+                                  Navigator.pushNamed(context, FireMap.id);
+                                },
+                                    color: LightTheme.greenAccent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.location_on),
+                                          SizedBox(width: 10.0,),
+                                          Text('Choose Market Location',
+                                          style: TextStyle(
+                                              color: LightTheme.darkGray,
+                                              fontWeight: FontWeight.w300,
+                                              fontSize: 14) ,),
+                                        ],
+                                      ),
+                                    )
+                                )
+//                                 TextFormField(
+// //                                  controller: locationController,
+//                                   style: TextStyle(
+//                                       color: LightTheme.darkGray, fontSize: 14),
+//                                   decoration: InputDecoration(
+//                                     contentPadding: EdgeInsets.symmetric(
+//                                         vertical: 10.0, horizontal: 10.0),
+//                                     filled: false,
+//                                   ),
+//                                     validator: (val) => val.isEmpty? 'Field must be filled':null,
+//                                     onChanged: (value){
+//                                       setState(() {
+//                                         location = value;
+//                                       });
+//                                     }
+//                                 ),
                               ],
                             ),
                           ),
