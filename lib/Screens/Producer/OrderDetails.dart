@@ -1,3 +1,4 @@
+import 'package:farmerApp/Screens/Classes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +11,11 @@ class OrderDetails extends StatefulWidget {
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
+  OrderClass order;
+
   @override
   Widget build(BuildContext context) {
+    order = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text('Order Details'),
@@ -19,11 +23,11 @@ class _OrderDetailsState extends State<OrderDetails> {
 
       body: Container(
         child: ListView.builder(
-            itemCount: 51 + 3,
+            itemCount: order.order.length + 4,
             itemBuilder: (context,index){
               if(index == 0)
                 return ListTile(
-                  title: Text('Customer Name : Customer Name'),
+                  title: Text('Customer Name : ' + order.customerName),
                 );
                   if(index == 1)
               return ListTile(
@@ -56,7 +60,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     );
                     index = index-3;
 
-              if(index == 50)
+              if(index == order.order.length)
                 return Container(
                   child: Column(
                     children: [
@@ -93,9 +97,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                   ),
                 );
               return ListTile(
-                title: Text('ProductName'),
-                subtitle: Text('Rs. TotalPrice'),
-                trailing: Text('Amount : ${2.5 * 2} Kg'),
+                title: Text(order.order[index]['ProductName']),
+                subtitle: Text('Rs. ' + order.order[index]['TotalPrice']),
+                trailing: Text('Amount : ' + order.order[index]['Quantity']),
               );
             }),
       ),

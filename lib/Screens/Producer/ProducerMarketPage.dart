@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
+import 'package:farmerApp/Screens/Producer/OrderDetails.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -175,7 +176,9 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
                         delegate: SliverChildBuilderDelegate(
                               (context, index) {
                             return GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(context, OrderDetails.id,arguments: orders[index]);
+                              },
                               child: Card(
                                 color: LightTheme.greenAccent.withOpacity(0.4),
                                 shape: RoundedRectangleBorder(
@@ -183,7 +186,7 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
                                 ),
                                 child: ListTile(
                                   title: Text(orders[index].customerName),
-                                  subtitle: Text(DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString()),
+                                  subtitle: Text(DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString().split(':')[0] + ':' + DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString().split(':')[1]),
                                 ),
                               ),
                             );
