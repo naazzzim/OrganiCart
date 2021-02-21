@@ -33,7 +33,6 @@ class _CustomerHomeState extends State<CustomerHome> {
             FlatButton(
               child: Text(
                 "Sign Out",
-                style: TextStyle(color: Colors.white),
               ),
               onPressed: () async {
                 await AuthServices().signOut();

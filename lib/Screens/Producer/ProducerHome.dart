@@ -27,9 +27,7 @@ class _ProducerHomeState extends State<ProducerHome> {
         ),
         actions: <Widget>[
           FlatButton(
-            child: Text("Sign Out",style: TextStyle(
-                color: Colors.white
-            ),),
+            child: Text("Sign Out",),
             onPressed: () async {
               await AuthServices().signOut();
             },
