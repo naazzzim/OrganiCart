@@ -119,7 +119,7 @@ class _FireMapState extends State<FireMap> {
 
   void _animateToUser() async {
     mapController.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(pos.latitude, pos.latitude), zoom: 14)));
+        CameraPosition(target: LatLng(pos.latitude, pos.longitude), zoom: 14)));
   }
 
   Future<DocumentReference> _addGeopoint(
