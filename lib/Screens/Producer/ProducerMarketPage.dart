@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
 import 'package:farmerApp/Screens/Producer/OrderDetails.dart';
+import 'package:farmerApp/Screens/ViewLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../Theme.dart';
 
 class ProducerMarketPage extends StatefulWidget {
-  final String marketName;
   final String marketUid;
-  ProducerMarketPage({this.marketUid,this.marketName});
+  ProducerMarketPage({this.marketUid});
   @override
   _ProducerMarketPageState createState() => _ProducerMarketPageState();
 }
@@ -19,13 +21,26 @@ class ProducerMarketPage extends StatefulWidget {
 class _ProducerMarketPageState extends State<ProducerMarketPage> {
   List<ProductClass> products = [];
   List<OrderClass> orders = [];
+  bool loading = true;
+  MarketClass market;
+  @override
+  void initState() {
+    MarketDatabase().getMarket(widget.marketUid).then((value){
+      setState(() {
+        market = value;
+        loading = false;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return loading? Loading():DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.marketName),
+          title: Text(market.marketName),
           bottom: TabBar(
             tabs: [
               Tab(text : "Products"),
@@ -60,28 +75,55 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
                         slivers: [
                           SliverPadding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                              const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                               sliver: SliverToBoxAdapter(
-                                child: ListTile(
-                                  title: Text(
-                                    'Location : ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: DarkTheme.darkGray,
-                                        fontSize: 18),
-                                  ),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.only(left:10.0,top: 10.0),
-                                    child: Text(
-                                      'My location is unknown.........testing testing........testing testing testing ',
-                                      maxLines: 4,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w300,
-                                          color: DarkTheme.darkGray,
-                                          fontSize: 14),
-                                    ),
-                                  ),
-                                ),
+                                child: FlatButton(onPressed: (){
+                                  Navigator.pushNamed(context, ViewLocation.id,
+                                    arguments: Marker(
+                                    position: LatLng(market.geopoint.latitude, market.geopoint.longitude),
+                                    icon: BitmapDescriptor.defaultMarker,
+                                    markerId: MarkerId(market.geohash),
+                                    infoWindow: InfoWindow(title: market.marketName))
+                                  );
+                                },
+                                    color: LightTheme.greenAccent,
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(Icons.location_on),
+                                          SizedBox(width: 10.0,),
+                                          Text('View Market Location',
+                                            style: TextStyle(
+                                                color: LightTheme.darkGray,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: 14) ,),
+                                        ],
+                                      ),
+                                    )
+                                )
+
+                                // ListTile(
+                                //   title: Text(
+                                //     'Location : ',
+                                //     style: TextStyle(
+                                //         fontWeight: FontWeight.w500,
+                                //         color: DarkTheme.darkGray,
+                                //         fontSize: 18),
+                                //   ),
+                                //   subtitle: Padding(
+                                //     padding: const EdgeInsets.only(left:10.0,top: 10.0),
+                                //     child: Text(
+                                //       'My location is unknown.........testing testing........testing testing testing ',
+                                //       maxLines: 4,
+                                //       style: TextStyle(
+                                //           fontWeight: FontWeight.w300,
+                                //           color: DarkTheme.darkGray,
+                                //           fontSize: 14),
+                                //     ),
+                                //   ),
+                                // ),
                               )),
                           SliverPadding(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),

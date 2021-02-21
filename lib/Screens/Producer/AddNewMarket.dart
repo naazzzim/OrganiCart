@@ -1,8 +1,10 @@
 import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/MapPage.dart';
+import 'package:farmerApp/Screens/ViewLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../Theme.dart';
 
@@ -112,7 +114,13 @@ class _AddNewMarketState extends State<AddNewMarket> {
                                ),
                                 SizedBox(height: 20,),
                                 FlatButton(onPressed: (){
-                                  Navigator.pushNamed(context, FireMap.id);
+                                  Navigator.pushNamed(context, ViewLocation.id,
+                                      // arguments: Marker(
+                                      // position: LatLng(position.latitude, position.longitude),
+                                      // icon: BitmapDescriptor.defaultMarker,
+                                      // markerId: MarkerId(geohash),
+                                      // infoWindow: InfoWindow(title: name, snippet: snippet))
+                                  );
                                 },
                                     color: LightTheme.greenAccent,
                                     child: Padding(

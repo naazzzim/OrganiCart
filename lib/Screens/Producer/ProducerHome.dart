@@ -45,7 +45,7 @@ class _ProducerHomeState extends State<ProducerHome> {
               return GestureDetector(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return ProducerMarketPage(marketName: widget.user.markets[index]['Name'],marketUid: widget.user.markets[index]['uid'],);
+                    return ProducerMarketPage(marketUid: widget.user.markets[index]['uid'],);
                   }));
                 },
                 child: Card(

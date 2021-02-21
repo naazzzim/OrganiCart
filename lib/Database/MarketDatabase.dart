@@ -6,6 +6,14 @@ class MarketDatabase{
 
   var markets = FirebaseFirestore.instance.collection('Markets');
 
+  Future<MarketClass> getMarket(String market_uid) async {
+    MarketClass market;
+    await markets.doc(market_uid).get().then((DocumentSnapshot doc){
+      market = MarketClass(marketName: doc.data()['Name'],ownerName: doc.data()['Owner'],uid: market_uid,geohash: doc.data()['positions']['geohash'],geopoint: doc.data()['positions']['geopoint']);
+    });
+    return market;
+  }
+
   Future<void> addProductToMarket(String market_uid,ProductClass product) async {
     await markets.doc(market_uid).collection('Products').add({
       'Name': product.name,

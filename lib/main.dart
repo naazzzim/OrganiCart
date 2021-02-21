@@ -10,6 +10,7 @@ import 'package:farmerApp/Screens/Producer/AddNewMarket.dart';
 import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
 import 'package:farmerApp/Screens/Producer/OrderDetails.dart';
 import 'package:farmerApp/Screens/Theme.dart';
+import 'package:farmerApp/Screens/ViewLocation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,6 +92,7 @@ class _FarmerAppState extends State<FarmerApp> {
         CustomerHome.id: (context) => CustomerHome(),
         OrderDetails.id: (context) => OrderDetails(),
         FireMap.id: (context) => FireMap(),
+        ViewLocation.id: (context) => ViewLocation(),
         CustomerOrderDetails.id: (context) => CustomerOrderDetails(),
       },
       initialRoute: Wrapper.id,

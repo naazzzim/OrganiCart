@@ -27,6 +27,8 @@ class OrderClass{
 class MarketClass{
   String marketName;
   String ownerName;
+  GeoPoint geopoint;
+  String geohash;
   String uid;
-  MarketClass({this.marketName,this.ownerName,this.uid});
+  MarketClass({this.marketName,this.ownerName,this.uid,this.geohash,this.geopoint});
 }
