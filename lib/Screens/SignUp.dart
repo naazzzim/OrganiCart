@@ -301,7 +301,7 @@ class _SignUpState extends State<SignUp> {
                               if (_formKey.currentState.validate()) {
                                 dynamic result = await AuthServices()
                                     .registerWithEmailAndPassword(
-                                        name, email, password, userType);
+                                        name, email, password, isFarmer?'Producer':'Consumer');
                                 if (result == null) {
                                   setState(() {
                                     loading = false;
