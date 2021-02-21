@@ -29,7 +29,7 @@ class _AddNewMarketState extends State<AddNewMarket> {
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
 
-    return loading? Loading():SafeArea(child: Scaffold(
+    return loading? Loading():Scaffold(
       appBar: AppBar(
         title: Text('Add new Market'),
       ),
@@ -149,6 +149,6 @@ class _AddNewMarketState extends State<AddNewMarket> {
           Icons.done,
         ),
       ),
-    ));
+    );
   }
 }

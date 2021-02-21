@@ -19,6 +19,7 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Order Details'),
+
       ),
 
       body: Container(
@@ -102,6 +103,12 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
                 trailing: Text('Amount : ' + order.order[index]['Quantity']),
               );
             }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.done),
+        onPressed: (){
+
+        },
       ),
     );
   }

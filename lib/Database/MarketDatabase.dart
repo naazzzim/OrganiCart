@@ -33,4 +33,8 @@ class MarketDatabase{
     await UserDatabase().addOrderToUser(id, order);
   }
 
+  Future<void> moveToHistory(OrderClass order) async {
+
+  }
+
 }
