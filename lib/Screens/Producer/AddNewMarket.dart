@@ -1,8 +1,12 @@
 import 'package:farmerApp/Database/MarketDatabase.dart';
+import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/MapPage.dart';
+import 'package:farmerApp/Screens/SetLocation.dart';
+import 'package:farmerApp/Screens/ViewLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../Theme.dart';
 
@@ -17,7 +21,7 @@ class _AddNewMarketState extends State<AddNewMarket> {
 
   String ownerName = "";
   String marketName;
-  String location;
+  GeoLocation location;
   bool loading = false;
   String error = "";
 
@@ -103,7 +107,7 @@ class _AddNewMarketState extends State<AddNewMarket> {
                                SizedBox(height: 15,),
                                Center(
                                  child: Text(
-                                   location == null? '' : location,
+                                   location == null? '' : "Location has been selected",
                                    style: TextStyle(
                                        color: LightTheme.darkGray,
                                        fontWeight: FontWeight.w300,
@@ -111,8 +115,13 @@ class _AddNewMarketState extends State<AddNewMarket> {
                                  ),
                                ),
                                 SizedBox(height: 20,),
-                                FlatButton(onPressed: (){
-                                  Navigator.pushNamed(context, FireMap.id);
+                                FlatButton(onPressed: () async{
+                                  Navigator.push(context,MaterialPageRoute(builder: (context) => SetLocation(geoLocation: location))).then((value){
+                                    setState(() {
+                                      location = value;
+                                    });
+                                  });
+
                                 },
                                     color: LightTheme.greenAccent,
                                     child: Padding(
@@ -165,9 +174,9 @@ class _AddNewMarketState extends State<AddNewMarket> {
           setState(() {
             loading = true;
           });
-          if(_formKey.currentState.validate()){
+          if(_formKey.currentState.validate() && location != null){
             Navigator.pop(context);
-            await MarketDatabase().addMarket(marketName,ownerName);
+            await MarketDatabase().addMarket(marketName,ownerName,{'geohash':location.geohash,'geopoint':location.geopoint});
           }
           else{
             setState(() {

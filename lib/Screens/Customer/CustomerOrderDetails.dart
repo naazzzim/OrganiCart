@@ -1,6 +1,9 @@
+import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Screens/Classes.dart';
+import 'package:farmerApp/Screens/ViewLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../Theme.dart';
 
@@ -12,10 +15,14 @@ class CustomerOrderDetails extends StatefulWidget {
 
 class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
   OrderClass order;
-
+  double totalPrice = 0;
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     order = ModalRoute.of(context).settings.arguments;
+    for(Map<dynamic,dynamic> element in order.order){
+      totalPrice += double.parse(element['TotalPrice']);
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Order Details'),
@@ -31,8 +38,36 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
                   title: Text('MarketName : ' + order.marketName),
                 );
               if(index == 1)
-                return ListTile(
-                  title: Text('Location : Location user user user'),
+                return Center(
+                  child: SizedBox(
+                    width: width - 30,
+                    child: FlatButton(onPressed: (){
+                      Navigator.pushNamed(context, ViewLocation.id,
+                          arguments: Marker(
+                              position: LatLng(order.geopoint.latitude, order.geopoint.longitude),
+                              icon: BitmapDescriptor.defaultMarker,
+                              markerId: MarkerId(order.geohash),
+                              infoWindow: InfoWindow(title: order.marketName))
+                      );
+                    },
+                        color: LightTheme.greenAccent,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.location_on),
+                              SizedBox(width: 10.0,),
+                              Text('View Delivery Location',
+                                style: TextStyle(
+                                    color: LightTheme.darkGray,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 14) ,),
+                            ],
+                          ),
+                        )
+                    ),
+                  ),
                 );
               if(index == 2)
                 return  Container(
@@ -84,7 +119,7 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
                             ),
                             Spacer(),
                             Text(
-                              'Rs. ' + 100.toString(),
+                              'Rs. ' + totalPrice.toString(),
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w400
@@ -106,8 +141,9 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.done),
-        onPressed: (){
-
+        onPressed: ()async{
+          Navigator.pop(context);
+          await MarketDatabase().OrderDelivered(order);
         },
       ),
     );

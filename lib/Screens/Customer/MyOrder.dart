@@ -4,6 +4,7 @@ import 'package:farmerApp/Database/MarketDatabase.dart';
 import 'package:farmerApp/Database/UserDatabase.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
+import 'package:farmerApp/Screens/SetLocation.dart';
 import 'package:farmerApp/Screens/Theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class MyOrder extends StatefulWidget {
 class _MyOrderState extends State<MyOrder> {
   bool loading = true;
   UserClass user;
+  GeoLocation location;
   @override
   void initState() {
     UserDatabase().getUsers().then((value){
@@ -32,6 +34,7 @@ class _MyOrderState extends State<MyOrder> {
   @override
   Widget build(BuildContext context) {
     double totalPrice = 0.0;
+    double width = MediaQuery.of(context).size.width;
     for(Map<dynamic,dynamic> element in widget.order){
       totalPrice += double.parse(element['TotalPrice']);
     }
@@ -41,16 +44,87 @@ class _MyOrderState extends State<MyOrder> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Navigator.popUntil(context, ModalRoute.withName(Wrapper.id));
-          await MarketDatabase().placeOrder(widget.market.uid, OrderClass(customerName: user.name,order: widget.order,timeStamp: Timestamp.now(),isCompleted: false,marketName: widget.market.marketName));
+          if(location != null) {
+            Navigator.popUntil(context, ModalRoute.withName(Wrapper.id));
+            await MarketDatabase().placeOrder(widget.market.uid, OrderClass(
+                customerName: user.name,
+                order: widget.order,
+                timeStamp: Timestamp.now(),
+                isCompleted: false,
+                marketName: widget.market.marketName,geohash:location.geohash,geopoint:location.geopoint));
+          }
         },
         child: Icon(
           Icons.chevron_right_sharp
         ),
       ),
       body: ListView.builder(
-        itemCount: widget.order.length + 1,
+        itemCount: widget.order.length + 2,
           itemBuilder: (context,index){
+
+          if(index == 0)
+            return Container(
+              child: Column(
+                children: [
+                  SizedBox(height: 30.0,),
+                  Container(
+                    child: Text(
+                      'Location',
+                      style: TextStyle(
+                          color: LightTheme.darkGray
+                              .withOpacity(0.6),
+                          fontWeight: FontWeight.w300,
+                          fontSize: 14),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  SizedBox(
+                    width: width - 30,
+                    child: FlatButton(onPressed: () async{
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => SetLocation(geoLocation: location))).then((value){
+                        setState(() {
+                          location = value;
+                        });
+                      });
+
+                    },
+                        color: LightTheme.greenAccent,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.location_on),
+                              SizedBox(width: 10.0,),
+                              Text('Choose Delivery Location',
+                                style: TextStyle(
+                                    color: LightTheme.darkGray,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 14) ,),
+                            ],
+                          ),
+                        )
+                    ),
+                  ),
+                    SizedBox(height: 20,),
+                  Center(
+                    child: Text(
+                      location == null? '' : "Location has been selected",
+                      style: TextStyle(
+                          color: LightTheme.darkGray,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 14),
+                    ),
+                  ),
+                  SizedBox(height: 10,)
+
+
+
+                ],
+              ),
+            );
+
+          index = index - 1;
           if(index == widget.order.length)
             return Container(
               child: Column(

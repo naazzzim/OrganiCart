@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
+import 'package:farmerApp/Screens/ViewLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'MyOrder.dart';
 import '../Theme.dart';
@@ -18,6 +20,7 @@ class _MarketViewState extends State<MarketView> {
   TextEditingController _controller = TextEditingController();
   List<ProductClass> products = [];
   List<dynamic> yourOrder = [];
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,38 +47,48 @@ class _MarketViewState extends State<MarketView> {
                   slivers: [
                     SliverPadding(
                         padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        const EdgeInsets.fromLTRB(10, 15, 10, 5),
                         sliver: SliverToBoxAdapter(
-                          child: ListTile(
-                            title: Text(
-                              'Location : ',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: DarkTheme.darkGray,
-                                  fontSize: 18),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(left:10.0,top: 10.0),
-                              child: Text(
-                                'My location is unknown.........testing testing........testing testing testing ',
-                                maxLines: 4,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    color: DarkTheme.darkGray,
-                                    fontSize: 14),
-                              ),
-                            ),
-                          ),
+                            child: FlatButton(onPressed: (){
+                              Navigator.pushNamed(context, ViewLocation.id,
+                                  arguments: Marker(
+                                      position: LatLng(market.geopoint.latitude, market.geopoint.longitude),
+                                      icon: BitmapDescriptor.defaultMarker,
+                                      markerId: MarkerId(market.geohash),
+                                      infoWindow: InfoWindow(title: market.marketName))
+                              );
+                            },
+                                color: LightTheme.greenAccent,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.location_on),
+                                      SizedBox(width: 10.0,),
+                                      Text('View Market Location',
+                                        style: TextStyle(
+                                            color: LightTheme.darkGray,
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 14) ,),
+                                    ],
+                                  ),
+                                )
+                            )
                         )),
                     SliverPadding(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                               (context, index) {
-                                int amount = 0;
+                                String amount = "0.0";
+                                for(Map<dynamic,dynamic> element in yourOrder){
+                                  if(element["ProductName"] == products[index].name)
+                                    amount = element["Quantity"];
+                                }
                             return GestureDetector(
                               onTap: ()async {
-                                amount = await showDialog(
+                                showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
@@ -98,7 +111,7 @@ class _MarketViewState extends State<MarketView> {
                                               Spacer(),
                                               GestureDetector(
                                                 onTap: (){
-                                                  Navigator.pop(context,int.parse(_controller.text ?? '0'));
+                                                  Navigator.pop(context,_controller.text ?? '0.0');
                                                   yourOrder.add({
                                                     'ProductName': products[index].name,
                                                     'Quantity': _controller.text,
@@ -124,7 +137,11 @@ class _MarketViewState extends State<MarketView> {
                                           ),
                                         ),
                                       );
-                                    });
+                                    }).then((value){
+                                      setState(() {
+                                        amount = value;
+                                      });
+                                });
                               },
                               child: Card(
                                 color: LightTheme.greenAccent.withOpacity(0.4),
@@ -172,7 +189,7 @@ class _MarketViewState extends State<MarketView> {
                                       ),
                                     ),
                                   ),
-                                  trailing: Text('Amount : ' + amount.toString()),
+                                  trailing: Text('Amount : ' + amount),
                                 ),
                               ),
                             );

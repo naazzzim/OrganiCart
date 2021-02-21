@@ -61,38 +61,13 @@ class _CustomerHomeState extends State<CustomerHome> {
                     markets.add(MarketClass(
                         marketName: doc['Name'],
                         ownerName: doc['Owner'],
-                        uid: doc.id));
+                        uid: doc.id,geopoint: doc['Location']['geopoint'],geohash: doc['Location']['geohash']));
                   }
                   return Container(
                     height: MediaQuery.of(context).size.height,
                     child: CustomScrollView(
                       slivers: [
-                        SliverPadding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          sliver: SliverToBoxAdapter(
-                            child: ListTile(
-                              title: Text(
-                                'Location : ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: DarkTheme.darkGray,
-                                    fontSize: 18),
-                              ),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.only(left:10.0,top: 10.0),
-                                child: Text(
-                                  'My location is unknown.........testing testing........testing testing testing ',
-                                  maxLines: 4,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      color: DarkTheme.darkGray,
-                                      fontSize: 14),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+
                         SliverPadding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
@@ -143,7 +118,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                         marketName: doc['MarketName'],
                         order: doc['Order'],
                         timeStamp: doc['TimeStamp'],
-                        isCompleted: doc['isCompleted']));
+                        isCompleted: doc['isCompleted'],geohash: doc['Location']['geohash'],geopoint: doc['Location']['geopoint'],market_order_id: doc['Market_order_id'],customer_order_id: doc['Customer_order_id'],market_uid: doc['Market_uid']));
                   }
 
                   return Container(
@@ -168,6 +143,10 @@ class _CustomerHomeState extends State<CustomerHome> {
                                     child: ListTile(
                                       title: Text(orders[index].marketName),
                                       subtitle: Text(DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString().split(':')[0] + ':' + DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString().split(':')[1]),
+                                      trailing: Text(orders[index].isCompleted? "Delivered":"Pending",
+                                      style: TextStyle(
+                                        fontStyle: FontStyle.italic
+                                      ),),
                                     ),
                                   ),
                                 );

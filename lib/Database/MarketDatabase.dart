@@ -6,6 +6,14 @@ class MarketDatabase{
 
   var markets = FirebaseFirestore.instance.collection('Markets');
 
+  Future<MarketClass> getMarket(String market_uid) async {
+    MarketClass market;
+    await markets.doc(market_uid).get().then((DocumentSnapshot doc){
+      market = MarketClass(marketName: doc.data()['Name'],ownerName: doc.data()['Owner'],uid: market_uid,geohash: doc.data()['Location']['geohash'],geopoint: doc.data()['Location']['geopoint']);
+    });
+    return market;
+  }
+
   Future<void> addProductToMarket(String market_uid,ProductClass product) async {
     await markets.doc(market_uid).collection('Products').add({
       'Name': product.name,
@@ -14,11 +22,12 @@ class MarketDatabase{
     });
   }
 
-  Future<void> addMarket(String marketName,String ownerName) async {
+  Future<void> addMarket(String marketName,String ownerName,Map<dynamic,dynamic> location) async {
     dynamic id = markets.doc().id;
     await markets.doc(id).set({
       'Name': marketName,
-      'Owner': ownerName
+      'Owner': ownerName,
+      'Location': location,
     });
     await UserDatabase().addMarketToUser(marketName, id);
   }
@@ -29,12 +38,20 @@ class MarketDatabase{
       'Name': order.customerName,
       'Order': order.order,
       'TimeStamp': order.timeStamp,
+      'Location': {'geohash':order.geohash,'geopoint':order.geopoint},
     });
-    await UserDatabase().addOrderToUser(id, order);
+    await UserDatabase().addOrderToUser(market_id,id, order);
   }
 
-  Future<void> moveToHistory(OrderClass order) async {
-
+  Future<void> OrderDelivered(OrderClass order) async {
+    await markets.doc(order.market_uid).collection('Orders').doc(order.market_order_id).delete();
+    await markets.doc(order.market_uid).collection('History').doc(order.market_order_id).set({
+      'Name': order.customerName,
+      'Order': order.order,
+      'TimeStamp': order.timeStamp,
+      'Location': {'geohash':order.geohash,'geopoint':order.geopoint},
+    });
+    await UserDatabase().updateOrderStatus(order);
   }
 
 }
