@@ -9,7 +9,7 @@ class MarketDatabase{
   Future<MarketClass> getMarket(String market_uid) async {
     MarketClass market;
     await markets.doc(market_uid).get().then((DocumentSnapshot doc){
-      market = MarketClass(marketName: doc.data()['Name'],ownerName: doc.data()['Owner'],uid: market_uid,geohash: doc.data()['positions']['geohash'],geopoint: doc.data()['positions']['geopoint']);
+      market = MarketClass(marketName: doc.data()['Name'],ownerName: doc.data()['Owner'],uid: market_uid,geohash: doc.data()['Location']['geohash'],geopoint: doc.data()['Location']['geopoint']);
     });
     return market;
   }
@@ -22,11 +22,12 @@ class MarketDatabase{
     });
   }
 
-  Future<void> addMarket(String marketName,String ownerName) async {
+  Future<void> addMarket(String marketName,String ownerName,Map<dynamic,dynamic> location) async {
     dynamic id = markets.doc().id;
     await markets.doc(id).set({
       'Name': marketName,
-      'Owner': ownerName
+      'Owner': ownerName,
+      'Location': location,
     });
     await UserDatabase().addMarketToUser(marketName, id);
   }

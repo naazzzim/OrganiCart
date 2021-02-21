@@ -32,3 +32,9 @@ class MarketClass{
   String uid;
   MarketClass({this.marketName,this.ownerName,this.uid,this.geohash,this.geopoint});
 }
+
+class GeoLocation{
+  GeoPoint geopoint;
+  String geohash;
+  GeoLocation({this.geopoint,this.geohash});
+}
