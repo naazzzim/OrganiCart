@@ -3,14 +3,15 @@ import 'package:farmerApp/AuthenticationSystem/Auth.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Customer/MarketView.dart';
 import 'package:farmerApp/Screens/Loading.dart';
-import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../Theme.dart';
+
 class CustomerHome extends StatefulWidget {
   static String id = 'CustomerHome';
-  UserClass user;
+  final UserClass user;
   CustomerHome({this.user});
   @override
   _CustomerHomeState createState() => _CustomerHomeState();
@@ -19,90 +20,99 @@ class CustomerHome extends StatefulWidget {
 class _CustomerHomeState extends State<CustomerHome> {
   List<MarketClass> markets = [];
   List<OrderClass> orders = [];
-  Map<dynamic,dynamic> yourOrder = {};
+  Map<dynamic, dynamic> yourOrder = {};
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.user.name + '\'s Dashboard'),
+          title: Text(widget.user.name + '\'s Dashboard',
+          textAlign: TextAlign.left,),
           actions: <Widget>[
             FlatButton(
-              child: Text("Sign Out",style: TextStyle(
-                  color: Colors.white
-              ),),
+              child: Text(
+                "Sign Out",
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () async {
                 await AuthServices().signOut();
               },
             )
           ],
           bottom: TabBar(
-            tabs: [
-              Tab(text : "Markets"),
-              Tab(text : "Yours Orders")
-            ],
+            tabs: [Tab(text: "Markets"), Tab(text: "Yours Orders")],
           ),
         ),
         body: TabBarView(
           children: [
             StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('Markets').snapshots(),
-                builder: (context,snapshot){
+                stream: FirebaseFirestore.instance
+                    .collection('Markets')
+                    .snapshots(),
+                builder: (context, snapshot) {
                   markets = [];
 
-                  if(!snapshot.hasData){
+                  if (!snapshot.hasData) {
                     return Loading();
                   }
 
-                  for(DocumentSnapshot doc in snapshot.data.documents){
-                    markets.add(MarketClass(marketName: doc['Name'],ownerName: doc['Owner'],uid: doc.id));
+                  for (DocumentSnapshot doc in snapshot.data.documents) {
+                    markets.add(MarketClass(
+                        marketName: doc['Name'],
+                        ownerName: doc['Owner'],
+                        uid: doc.id));
                   }
                   return Container(
                     height: MediaQuery.of(context).size.height,
                     child: CustomScrollView(
                       slivers: [
                         SliverPadding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                            sliver: SliverToBoxAdapter(
-                              child: Container(
-                                height: 100,
-                                width: MediaQuery.of(context).size.width - 20,
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                child: Row(
-                                  children: [
-                                    Text('Location : '),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width / 1.5,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: SelectableText(
-                                          'This is my Location, testing testing testing testing',
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          sliver: SliverToBoxAdapter(
+                            child: ListTile(
+                              title: Text(
+                                'Location : ',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: DarkTheme.darkGray,
+                                    fontSize: 18),
+                              ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(left:10.0,top: 10.0),
+                                child: Text(
+                                  'My location is unknown.........testing testing........testing testing testing ',
+                                  maxLines: 4,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      color: DarkTheme.darkGray,
+                                      fontSize: 14),
                                 ),
                               ),
-                            )),
+                            ),
+                          ),
+                        ),
                         SliverPadding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
                           sliver: SliverList(
                             delegate: SliverChildBuilderDelegate(
-                                  (context, index) {
+                              (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(context, MarketView.id,arguments: markets[index]);
+                                    Navigator.pushNamed(context, MarketView.id,
+                                        arguments: markets[index]);
                                   },
                                   child: Card(
-                                    color: Colors.blueAccent.withOpacity(0.4),
+                                    color:
+                                        LightTheme.greenAccent.withOpacity(0.4),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
                                     child: ListTile(
                                       title: Text(markets[index].marketName),
-                                      subtitle: Text( markets[index].ownerName),
+                                      subtitle: Text(markets[index].ownerName),
                                     ),
                                   ),
                                 );
@@ -115,19 +125,25 @@ class _CustomerHomeState extends State<CustomerHome> {
                     ),
                   );
                 }),
-
             StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('Users').doc(FirebaseAuth.instance.currentUser.email).collection('UserOrders').snapshots(),
-                builder: (context,snapshot){
-
+                stream: FirebaseFirestore.instance
+                    .collection('Users')
+                    .doc(FirebaseAuth.instance.currentUser.email)
+                    .collection('UserOrders')
+                    .snapshots(),
+                builder: (context, snapshot) {
                   orders = [];
 
-                  if(!snapshot.hasData){
+                  if (!snapshot.hasData) {
                     return Loading();
                   }
 
-                  for(DocumentSnapshot doc in snapshot.data.documents){
-                    orders.add(OrderClass(marketName: doc['MarketName'],order: doc['Order'],timeStamp: doc['TimeStamp'],isCompleted: doc['isCompleted']));
+                  for (DocumentSnapshot doc in snapshot.data.documents) {
+                    orders.add(OrderClass(
+                        marketName: doc['MarketName'],
+                        order: doc['Order'],
+                        timeStamp: doc['TimeStamp'],
+                        isCompleted: doc['isCompleted']));
                   }
 
                   return Container(
@@ -135,20 +151,26 @@ class _CustomerHomeState extends State<CustomerHome> {
                     child: CustomScrollView(
                       slivers: [
                         SliverPadding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
                           sliver: SliverList(
                             delegate: SliverChildBuilderDelegate(
-                                  (context, index) {
+                              (context, index) {
                                 return GestureDetector(
                                   onTap: () {},
                                   child: Card(
-                                    color: Colors.blueAccent.withOpacity(0.4),
+                                    color: LightTheme.greenAccent.withOpacity(0.4),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
                                     child: ListTile(
                                       title: Text(orders[index].marketName),
-                                      subtitle: Text(DateTime.fromMicrosecondsSinceEpoch(orders[index].timeStamp.microsecondsSinceEpoch).toString()),
+                                      subtitle: Text(
+                                          DateTime.fromMicrosecondsSinceEpoch(
+                                                  orders[index]
+                                                      .timeStamp
+                                                      .microsecondsSinceEpoch)
+                                              .toString()),
                                     ),
                                   ),
                                 );

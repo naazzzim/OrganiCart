@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../Theme.dart';
+
 class OrderDetails extends StatefulWidget {
   static String id = 'OrderDetails';
   @override
@@ -45,7 +47,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                           Spacer(),
                           Divider(
-                            color: Colors.blueAccent,
+                            color: LightTheme.greenAccent,
                             thickness: 4,
                           ),
                           Spacer(),
@@ -59,7 +61,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   child: Column(
                     children: [
                       Divider(
-                        color: Colors.blueAccent,
+                        color: LightTheme.greenAccent,
                         thickness: 4,
                       ),
                       Container(
