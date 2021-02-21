@@ -61,23 +61,24 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
                               padding:
                               const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                               sliver: SliverToBoxAdapter(
-                                child: Container(
-                                  height: 100,
-                                  width: MediaQuery.of(context).size.width - 20,
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Row(
-                                    children: [
-                                      Text('Location : '),
-                                      Container(
-                                        width: MediaQuery.of(context).size.width / 1.5,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 10),
-                                          child: SelectableText(
-                                            'This is my Location, testing testing testing testing',
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                child: ListTile(
+                                  title: Text(
+                                    'Location : ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: DarkTheme.darkGray,
+                                        fontSize: 18),
+                                  ),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(left:10.0,top: 10.0),
+                                    child: Text(
+                                      'My location is unknown.........testing testing........testing testing testing ',
+                                      maxLines: 4,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          color: DarkTheme.darkGray,
+                                          fontSize: 14),
+                                    ),
                                   ),
                                 ),
                               )),
@@ -94,8 +95,48 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
                                         borderRadius: BorderRadius.circular(15.0),
                                       ),
                                       child: ListTile(
-                                        title: Text(products[index].name),
-                                        subtitle: Text('Price : ' + products[index].price.toString()),
+                                        title: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(products[index].name,
+                                            style: TextStyle(
+                                                fontSize: 18
+                                            ),
+                                          ),
+                                        ),
+                                        subtitle:Padding(
+                                          padding: const EdgeInsets.fromLTRB(8,10,0,10),
+                                          child: RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                   text : 'Price : ',
+                                                  style: TextStyle(
+                                                    color: DarkTheme.darkGray
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                text : products[index].price.toString(),
+                                                  style: TextStyle(
+                                                      color: DarkTheme.darkGray.withOpacity(0.8)
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text:  '\n\nAdditional Info : ',
+                                                  style: TextStyle(
+                                                      color: DarkTheme.darkGray
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: products[index].additionalInfo ?? "",
+                                                  style: TextStyle(
+                                                      color: DarkTheme.darkGray.withOpacity(0.8)
+                                                  ),
+                                                ),
+                                              ]
+                                            ),
+                                          ),
+                                        ),
+                                        isThreeLine: true,
                                       ),
                                     ),
                                   );

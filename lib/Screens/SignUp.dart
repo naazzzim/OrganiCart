@@ -289,7 +289,7 @@ class _SignUpState extends State<SignUp> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: Align(
-                            alignment: Alignment(-1, 0),
+                            alignment: Alignment(0, 0),
                             child: ClipRRect(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(60)),
@@ -347,7 +347,7 @@ class _SignUpState extends State<SignUp> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 40),
                           child: Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: Alignment.center,
                             child: Container(
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
