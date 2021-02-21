@@ -6,6 +6,7 @@ import 'package:farmerApp/Screens/MarketListUser.dart';
 import 'package:farmerApp/Screens/Producer/AddNewMarket.dart';
 import 'package:farmerApp/Screens/Producer/AddNewProduct.dart';
 import 'package:farmerApp/Screens/Producer/OrderDetails.dart';
+import 'package:farmerApp/Screens/Theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './LandingPages.dart';
@@ -72,6 +73,14 @@ class _FarmerAppState extends State<FarmerApp> {
     }
 
     return MaterialApp(
+      theme:ThemeData(
+        cursorColor: LightTheme.greenAccent,
+        splashColor: LightTheme.greenAccent,
+        textSelectionColor: LightTheme.greenAccent,
+        accentColor: LightTheme.greenAccent,
+        primaryColor: LightTheme.greenAccent,
+        fontFamily: "Montserrat",
+      ),
       routes: {
         SignUp.id: (context) => SignUp(),
         Wrapper.id: (context) => Wrapper(),

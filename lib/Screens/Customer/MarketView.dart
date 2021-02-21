@@ -71,9 +71,10 @@ class _MarketViewState extends State<MarketView> {
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                               (context, index) {
+                                int amount = 0;
                             return GestureDetector(
                               onTap: ()async {
-                                int value = await showDialog(
+                                amount = await showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
@@ -109,7 +110,7 @@ class _MarketViewState extends State<MarketView> {
                                                   child: Container(
                                                     width: 100,
                                                     height: 50,
-                                                    color: Colors.blueAccent,
+                                                    color: LightTheme.greenAccent,
                                                     child: Center(
                                                       child: Text(
                                                         'Done',
@@ -125,13 +126,14 @@ class _MarketViewState extends State<MarketView> {
                                     });
                               },
                               child: Card(
-                                color: Colors.blueAccent.withOpacity(0.4),
+                                color: LightTheme.greenAccent.withOpacity(0.4),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                 ),
                                 child: ListTile(
                                   title: Text(products[index].name),
                                   subtitle: Text('Price : ' + products[index].price.toString()),
+                                  trailing: Text('Amount : ' + amount.toString()),
                                 ),
                               ),
                             );
@@ -146,6 +148,7 @@ class _MarketViewState extends State<MarketView> {
         }
       ),
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.done),
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context){
             return MyOrder(order: yourOrder,market: market,);

@@ -12,6 +12,7 @@ class AddNewMarket extends StatefulWidget {
 }
 
 class _AddNewMarketState extends State<AddNewMarket> {
+  final _formKey = GlobalKey<FormState>();
 
   String ownerName = "";
   String marketName;
@@ -19,15 +20,14 @@ class _AddNewMarketState extends State<AddNewMarket> {
   bool loading = false;
   String error = "";
 
-  TextEditingController marketNameController = TextEditingController();
-  TextEditingController LocationController = TextEditingController();
+//  TextEditingController marketNameController = TextEditingController();
+//  TextEditingController locationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     ownerName = ModalRoute.of(context).settings.arguments;
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    final _formKey = GlobalKey<FormState>();
 
     return loading? Loading():SafeArea(child: Scaffold(
       appBar: AppBar(
@@ -43,9 +43,6 @@ class _AddNewMarketState extends State<AddNewMarket> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          border: Border.all(color: Colors.blueAccent)),
                       height: _height / 1.5,
                       child: Column(
                         children: <Widget>[
@@ -53,90 +50,72 @@ class _AddNewMarketState extends State<AddNewMarket> {
                             height: 20,
                           ),
                           Spacer(),
-                          ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            child: Container(
-                              height: 60,
-                              width: 300,
-                              color: LightTheme.darkGray.withOpacity(0.3),
-                              padding: EdgeInsets.fromLTRB(10, 2, 5, 5),
-                              child: TextFormField(
-                                controller: marketNameController,
-                                style: TextStyle(
-                                    color: LightTheme.darkGray, fontSize: 14),
-                                keyboardType: TextInputType.phone,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 10.0),
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  disabledBorder: InputBorder.none,
-                                  icon: Container(
-                                    padding: EdgeInsets.fromLTRB(0, 6, 0, 0),
-                                    child: Icon(
-                                      Icons.add_shopping_cart,
-                                      color: LightTheme.darkGray,
-                                      size: 20,
-                                    ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'Market Name',
+                                    style: TextStyle(
+                                        color: LightTheme.darkGray
+                                            .withOpacity(0.6),
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 14),
                                   ),
-                                  hintText: 'Market Name',
-                                  hintStyle: TextStyle(
-                                      color: LightTheme.darkGray.withOpacity(0.7),
-                                      fontFamily: "Montserrat"),
-                                  filled: false,
+                                  alignment: Alignment(-0.95,0),
                                 ),
-                                  validator: (val) => val.isEmpty? 'Field must be filled':null,
-                                  onChanged: (value){
-                                    setState(() {
-                                      marketName = value;
-                                    });
-                                  }
-                              ),
+                                TextFormField(
+                                  style: TextStyle(
+                                      color: LightTheme.darkGray, fontSize: 14),
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    filled: false,
+                                  ),
+                                    validator: (val) => val.isEmpty? 'Field must be filled':null,
+                                    onChanged: (value){
+                                      setState(() {
+                                        marketName = value;
+                                      });
+                                    }
+                                ),
+                              ],
                             ),
                           ),
                           Spacer(),
-                          ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            child: Container(
-                              height: 60,
-                              width: 300,
-                              color: LightTheme.darkGray.withOpacity(0.3),
-                              padding: EdgeInsets.fromLTRB(10, 2, 5, 5),
-                              child: TextFormField(
-                                controller: LocationController,
-                                style: TextStyle(
-                                    color: LightTheme.darkGray, fontSize: 14),
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 10.0),
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  disabledBorder: InputBorder.none,
-                                  icon: Container(
-                                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                    child: Icon(
-                                      Icons.location_on,
-                                      color: LightTheme.darkGray,
-                                      size: 20,
-                                    ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'Location',
+                                    style: TextStyle(
+                                        color: LightTheme.darkGray
+                                            .withOpacity(0.6),
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 14),
                                   ),
-                                  hintText: 'Location',
-                                  hintStyle: TextStyle(
-                                      color: LightTheme.darkGray.withOpacity(0.7),
-                                      fontFamily: "Montserrat"),
-                                  filled: false,
+                                  alignment: Alignment(-0.95,0),
                                 ),
-                                  validator: (val) => val.isEmpty? 'Field must be filled':null,
-                                  onChanged: (value){
-                                    setState(() {
-                                      location = value;
-                                    });
-                                  }
-                              ),
+                                TextFormField(
+//                                  controller: locationController,
+                                  style: TextStyle(
+                                      color: LightTheme.darkGray, fontSize: 14),
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10.0),
+                                    filled: false,
+                                  ),
+                                    validator: (val) => val.isEmpty? 'Field must be filled':null,
+                                    onChanged: (value){
+                                      setState(() {
+                                        location = value;
+                                      });
+                                    }
+                                ),
+                              ],
                             ),
                           ),
                           Spacer(

@@ -1,9 +1,8 @@
 import 'dart:ui';
-
+import 'dart:ui' as ui;
 import 'package:farmerApp/AuthenticationSystem/Auth.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:flutter/material.dart';
-
 
 import 'Theme.dart';
 
@@ -13,7 +12,7 @@ class SignIn extends StatefulWidget {
   final Function toggleView;
   SignIn({this.toggleView});
 
-  final  greenAccent = const Color(0xff1ef6e3);
+  final greenAccent = const Color(0xff1ef6e3);
   final darkBlue = const Color(0xff1f1a30);
   final darkGray = const Color(0xff1e1e1e);
   final lightGray = const Color(0xff2b2f38);
@@ -24,7 +23,6 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
@@ -35,15 +33,14 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    return loading? Loading():SafeArea(
-      child: Scaffold(
-          body: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Container(
-                color: LightTheme.starWhite,
-                height: _height,
-                width: _width,
+    return loading
+        ? Loading()
+        : SafeArea(
+            child: Scaffold(
+              backgroundColor: LightTheme.starWhite,
+                body: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     Container(
@@ -54,229 +51,255 @@ class _SignInState extends State<SignIn> {
                             flex: 4,
                           ),
                           Container(
-                            height: 100,
-                            alignment: Alignment.centerLeft,
-                            child: Center(
-                              child: Text(
-                                'Login',
-                                style: TextStyle(
-                                    color: LightTheme.darkGray,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 36),
-                              ),
+                            alignment: Alignment(-1, 0),
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'OrganiCart',
+                                  style: TextStyle(
+                                      color: LightTheme.darkGray,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 36),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                ShaderMask(
+                                  blendMode: BlendMode.srcIn,
+                                  shaderCallback: (Rect bounds) {
+                                    return ui.Gradient.linear(
+                                      Offset(4.0, 24.0),
+                                      Offset(24.0, 4.0),
+                                      [
+                                        LightTheme.greenAccent,
+                                        LightTheme.deepIndigoAccent,
+                                      ],
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.shopping_bag,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Spacer(),
+                          Container(
+                            alignment: Alignment(-1, 0),
+                            padding: const EdgeInsets.symmetric(horizontal: 35),
+                            child: Text(
+                              'Please sign-in to continue',
+                              style: TextStyle(
+                                  color: LightTheme.darkGray.withOpacity(0.6),
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 16),
                             ),
                           ),
                         ],
                       ),
                     ),
+                    SizedBox(
+                      height: 60,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            border: Border.all(color: Colors.blueAccent)),
-                        height: _height / 1.5,
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 20,
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Text(
+                              'Email Address',
+                              style: TextStyle(
+                                  color: LightTheme.darkGray
+                                      .withOpacity(0.6),
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 14),
                             ),
-                            Spacer(),
-                            ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              child: Container(
-                                height: 60,
-                                width: 300,
-                                color: LightTheme.darkGray.withOpacity(0.3),
-                                padding: EdgeInsets.fromLTRB(10, 2, 5, 5),
-                                child: TextFormField(
-                                  style: TextStyle(
-                                      color: LightTheme.darkGray, fontSize: 14),
-                                  keyboardType: TextInputType.phone,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 10.0),
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none,
-                                    icon: Container(
-                                      padding: EdgeInsets.fromLTRB(0, 6, 0, 0),
-                                      child: Icon(
-                                        Icons.email,
-                                        color: LightTheme.darkGray,
-                                        size: 20,
-                                      ),
-                                    ),
-                                    hintText: 'Email',
-                                    hintStyle: TextStyle(
-                                        color: LightTheme.darkGray.withOpacity(0.7),
-                                        fontFamily: "Montserrat"),
-                                    filled: false,
-                                  ),
-                                  onChanged: (val){
-                                    setState(() {
-                                      email = val;
-                                    });
-                                  },
-                                  validator: (val) => val.isEmpty? 'Please enter a valid email' : null,
-                                ),
-                              ),
+                            alignment: Alignment(-0.95,0),
+                          ),
+                          TextFormField(
+                            style: TextStyle(
+                                color: LightTheme.darkGray,
+                                fontSize: 14),
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 10.0),
                             ),
-                            Spacer(),
-                            ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              child: Container(
-                                height: 60,
-                                width: 300,
-                                color: LightTheme.darkGray.withOpacity(0.3),
-                                padding: EdgeInsets.fromLTRB(10, 2, 5, 5),
-                                child: TextFormField(
-                                  style: TextStyle(
-                                      color: LightTheme.darkGray, fontSize: 14),
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 10.0),
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none,
-                                    icon: Container(
-                                      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: Icon(
-                                        Icons.vpn_key,
-                                        color: LightTheme.darkGray,
-                                        size: 20,
-                                      ),
-                                    ),
-                                    hintText: 'Password',
-                                    hintStyle: TextStyle(
-                                        color: LightTheme.darkGray.withOpacity(0.7),
-                                        fontFamily: "Montserrat"),
-                                    filled: false,
-                                  ),
-                                  obscureText: true,
-                                  onChanged: (val){
-                                    setState(() {
-                                      password = val;
-                                    });
-                                  },
-                                  validator: (val) => val.length < 6? 'Password must be 6+ characters' : null,
-                                ),
-                              ),
+                            onChanged: (val) {
+                              setState(() {
+                                email = val;
+                              });
+                            },
+                            validator: (val) => val.isEmpty
+                                ? 'Please enter a valid email'
+                                : null,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        children: [
+                          Container(
+                            child: Text(
+                              'Password',
+                              style: TextStyle(
+                                  color: LightTheme.darkGray
+                                      .withOpacity(0.6),
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 14),
                             ),
-                            Spacer(
-                              flex: 2,
+                            alignment: Alignment(-0.95,0),
+                          ),
+                          TextFormField(
+                            style: TextStyle(
+                                color: LightTheme.darkGray,
+                                fontSize: 14),
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10.0, horizontal: 10.0),
                             ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(15)),
-                              child: GestureDetector(
-                                onTap: () async {
+                            obscureText: true,
+                            onChanged: (val) {
+                              setState(() {
+                                password = val;
+                              });
+                            },
+                            validator: (val) => val.length < 6
+                                ? 'Password must be 6+ characters'
+                                : null,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 80,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Align(
+                        alignment: Alignment(-1,0),
+                        child: ClipRRect(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(60)),
+                          child: GestureDetector(
+                            onTap: () async {
+                              setState(() {
+                                loading = true;
+                              });
+                              if (_formKey.currentState.validate()) {
+                                dynamic result = await AuthServices()
+                                    .loginWithEmailAndPassword(
+                                        email, password);
+                                if (result == null) {
                                   setState(() {
-                                    loading = true;
+                                    loading = false;
+                                    error =
+                                        'Please enter a valid Email Id and corresponding Password';
                                   });
-                                  if(_formKey.currentState.validate()){
-                                    dynamic result = await AuthServices().loginWithEmailAndPassword(email, password);
-                                    if(result == null){
-                                      setState(() {
-                                        loading = false;
-                                        error =  'Please enter a valid Email Id and corresponding Password';
-                                      });
-                                    }
-                                  }
-                                  else{
-                                    setState(() {
-                                      loading = false;
-                                      error =
+                                }
+                              } else {
+                                setState(() {
+                                  loading = false;
+                                  error =
                                       'Please enter a valid Email Id and corresponding Password';
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                  color: Colors.blueAccent,
-                                  height: 50,
-                                  width: 250,
-                                  child: Center(
-                                    child: Text(
-                                      'Login',
-                                      style: TextStyle(
-                                        fontSize: 17,
-                                        fontFamily: "Montserrat",
-                                        fontWeight: FontWeight.w500,
-                                        color: DarkTheme.darkGray,
-                                      ),
-                                    ),
+                                });
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: RadialGradient(
+                                  colors: [
+                                    LightTheme.greenAccent,
+                                    LightTheme.deepIndigoAccent,
+                                  ],
+                                  radius: 5,
+                                  center: Alignment.bottomLeft
+                                )
+                              ),
+                              height: 50,
+                              width: 150,
+                              child: Center(
+                                child: Text(
+                                  'SIGN IN',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: "Montserrat",
+                                    fontWeight: FontWeight.w500,
+                                    color: LightTheme.starWhite,
                                   ),
                                 ),
                               ),
                             ),
-                            Text(error,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Text(
+                                "Don't have an account?",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontStyle: FontStyle.italic
-                                )
-                            ),
-                            Spacer(
-                              flex: 2,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width - 20,
-                              child: Row(
-                                children: <Widget>[
-                                  Spacer(
-                                    flex: 1,
-                                  ),
-                                  Container(
-                                    height: 40,
-                                    width: 170,
-                                    child: Center(
-                                      child: Text(
-                                        "Don't have an account?",
-                                        style: TextStyle(
-                                          color: LightTheme.darkGray.withOpacity(0.7),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      widget.toggleView();
-                                    },
-                                    child: Container(
-                                      height: 40,
-                                      child: Center(
-                                        child: Text(
-                                          "Register",
-                                          style: TextStyle(
-                                            decoration: TextDecoration.underline,
-                                            color:
-                                            LightTheme.darkGray.withOpacity(0.7),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(
-                                    flex: 1,
-                                  ),
-                                ],
+                                  color: LightTheme.darkGray
+                                      .withOpacity(0.7),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
+                              SizedBox(width: 10,),
+                              GestureDetector(
+                                onTap: () {
+                                  widget.toggleView();
+                                },
+                                child: ShaderMask(
+                                  blendMode: BlendMode.srcIn,
+                                  shaderCallback: (Rect bounds) {
+                                    return ui.Gradient.linear(
+                                      Offset(4.0, 24.0),
+                                      Offset(24.0, 4.0),
+                                      [
+                                        LightTheme.greenAccent,
+                                        LightTheme.deepIndigoAccent,
+                                      ],
+                                    );
+                                  },
+                                  child: Text(
+                                    "Register",
+                                    style: TextStyle(
+                                      decoration:
+                                          TextDecoration.underline,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-          )),
-    );
+            )),
+          );
   }
 }

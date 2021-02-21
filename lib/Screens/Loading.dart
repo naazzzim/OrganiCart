@@ -10,10 +10,10 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          backgroundColor: DarkTheme.darkGray,
+          backgroundColor: LightTheme.starWhite,
           body: Center(
               child: SpinKitRotatingCircle(
-                color: DarkTheme.deepIndigoAccent,
+                color: LightTheme.greenAccent,
                 size: 50.0,
               )
           )

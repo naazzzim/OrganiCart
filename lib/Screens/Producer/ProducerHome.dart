@@ -3,11 +3,12 @@ import 'package:farmerApp/Database/UserDatabase.dart';
 import 'package:farmerApp/Screens/Producer/AddNewMarket.dart';
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Producer/ProducerMarketPage.dart';
+import 'package:farmerApp/Screens/Theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProducerHome extends StatefulWidget {
-  UserClass user;
+  final UserClass user;
   ProducerHome({this.user});
   @override
   _ProducerHomeState createState() => _ProducerHomeState();
@@ -21,7 +22,8 @@ class _ProducerHomeState extends State<ProducerHome> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            widget.user.name + '\'s Markets'
+            widget.user.name + '\'s Markets',
+          textAlign: TextAlign.left,
         ),
         actions: <Widget>[
           FlatButton(
@@ -37,16 +39,19 @@ class _ProducerHomeState extends State<ProducerHome> {
       body: Padding(
         padding: const EdgeInsets.only(left: 10,right: 10),
         child: ListView.builder(
-            itemCount: widget.user.markets.length,
+            itemCount: widget.user.markets.length + 1,
             itemBuilder: (context,index){
+              if(index == 0)
+                return SizedBox(height: 10,);
+                index --;
               return GestureDetector(
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return ProducerMarketPage(marketName: widget.user.markets[index]['Name'],market_uid: widget.user.markets[index]['uid'],);
+                    return ProducerMarketPage(marketName: widget.user.markets[index]['Name'],marketUid: widget.user.markets[index]['uid'],);
                   }));
                 },
                 child: Card(
-                  color: Colors.blueAccent.withOpacity(0.4),
+                  color: LightTheme.greenAccent.withOpacity(0.4),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -58,6 +63,7 @@ class _ProducerHomeState extends State<ProducerHome> {
             }),
       ),
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
         onPressed: (){
           Navigator.pushNamed(context, AddNewMarket.id,arguments: widget.user.name);
         },

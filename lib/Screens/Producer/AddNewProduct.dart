@@ -17,172 +17,143 @@ class _AddNewProductState extends State<AddNewProduct> {
   String productName = "";
   String productPrice = "";
   String additionalInfo = "";
-  String market_uid;
+  String marketUid;
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   String error = "";
 
   @override
   Widget build(BuildContext context) {
-    market_uid = ModalRoute.of(context).settings.arguments;
+    marketUid = ModalRoute.of(context).settings.arguments;
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    return loading? Loading():SafeArea(child: Scaffold(
+    if (loading) {
+      return Loading();
+    } else {
+      return SafeArea(child: Scaffold(
       appBar: AppBar(
         title: Text('Add a Product'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Form(
           key: _formKey,
-          child: Container(
-            height: _height/1.5,
-            width: _width,
-            child:
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    border: Border.all(color: Colors.blueAccent)),
-                height: _height / 1.5,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Spacer(),
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: Container(
-                        height: 60,
-                        width: 300,
-                        color: LightTheme.darkGray.withOpacity(0.3),
-                        padding: EdgeInsets.fromLTRB(10, 2, 5, 5),
-                        child: TextFormField(
-                          style: TextStyle(
-                              color: LightTheme.darkGray, fontSize: 14),
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            icon: Container(
-                              padding: EdgeInsets.fromLTRB(0, 6, 0, 0),
-                              child: Icon(
-                                Icons.add_shopping_cart,
-                                color: LightTheme.darkGray,
-                                size: 20,
-                              ),
-                            ),
-                            hintText: 'Product Name',
-                            hintStyle: TextStyle(
-                                color: LightTheme.darkGray.withOpacity(0.7),
-                                fontFamily: "Montserrat"),
-                            filled: false,
-                          ),
-                          validator: (val) => val.isEmpty? 'Field must be filled':null,
-                          onChanged: (value){
-                            setState(() {
-                              productName = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: Container(
-                        height: 60,
-                        width: 300,
-                        color: LightTheme.darkGray.withOpacity(0.3),
-                        padding: EdgeInsets.fromLTRB(10, 2, 5, 5),
-                        child: TextFormField(
-                          style: TextStyle(
-                              color: LightTheme.darkGray, fontSize: 14),
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            icon: Container(
-                              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                              child: Icon(
-                                Icons.location_on,
-                                color: LightTheme.darkGray,
-                                size: 20,
-                              ),
-                            ),
-                            hintText: 'Product Price',
-                            hintStyle: TextStyle(
-                                color: LightTheme.darkGray.withOpacity(0.7),
-                                fontFamily: "Montserrat"),
-                            filled: false,
-                          ),
-                          validator: (val) => val.isEmpty? 'Field must be filled':null,
-                          onChanged: (value){
-                            setState(() {
-                              productPrice = value;
-                            });
-                          },
-                          keyboardType: TextInputType.number,
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: Container(
-                        height: 60,
-                        width: 300,
-                        color: LightTheme.darkGray.withOpacity(0.3),
-                        padding: EdgeInsets.fromLTRB(10, 2, 5, 5),
-                        child: TextFormField(
-                          style: TextStyle(
-                              color: LightTheme.darkGray, fontSize: 14),
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            icon: Container(
-                              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                              child: Icon(
-                                Icons.location_on,
-                                color: LightTheme.darkGray,
-                                size: 20,
-                              ),
-                            ),
-                            hintText: 'Additional Info',
-                            hintStyle: TextStyle(
-                                color: LightTheme.darkGray.withOpacity(0.7),
-                                fontFamily: "Montserrat"),
-                            filled: false,
-                          ),
-                          onChanged: (value){
-                            setState(() {
-                              additionalInfo = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    Spacer(
-                      flex: 2,
-                    ),
-                  ],
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  height: 80,
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Text(
+                          'Product Name',
+                          style: TextStyle(
+                              color: LightTheme.darkGray
+                                  .withOpacity(0.6),
+                              fontWeight: FontWeight.w300,
+                              fontSize: 14),
+                        ),
+                        alignment: Alignment(-0.95,0),
+                      ),
+                      TextFormField(
+                        style: TextStyle(
+                            color: LightTheme.darkGray, fontSize: 14),
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                          filled: false,
+                        ),
+                        validator: (val) => val.isEmpty? 'Field must be filled':null,
+                        onChanged: (value){
+                          setState(() {
+                            productName = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      Container(
+                      child :Text(
+                    'Product Price',
+                    style: TextStyle(
+                        color: LightTheme.darkGray
+                            .withOpacity(0.6),
+                        fontWeight: FontWeight.w300,
+                        fontSize: 14),
+                  ),
+                  alignment: Alignment(-0.95,0),
+                ),
+                      TextFormField(
+                        style: TextStyle(
+                            color: LightTheme.darkGray, fontSize: 14),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                          filled: false,
+                        ),
+                        validator: (val) => val.isEmpty? 'Field must be filled':null,
+                        onChanged: (value){
+                          setState(() {
+                            productPrice = value;
+                          });
+                        },
+                        keyboardType: TextInputType.number,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Text(
+                          'Additional Info',
+                          style: TextStyle(
+                              color: LightTheme.darkGray
+                                  .withOpacity(0.6),
+                              fontWeight: FontWeight.w300,
+                              fontSize: 14),
+                        ),
+                        alignment: Alignment(-0.95,0),
+                      ),
+                      TextFormField(
+                        style: TextStyle(
+                            color: LightTheme.darkGray, fontSize: 14),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                          filled: false,
+                        ),
+                        onChanged: (value){
+                          setState(() {
+                            additionalInfo = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 60,
+                ),
+              ],
             ),
           ),
         ),
@@ -194,7 +165,7 @@ class _AddNewProductState extends State<AddNewProduct> {
           });
           if(_formKey.currentState.validate()){
             Navigator.pop(context);
-            await MarketDatabase().addProductToMarket(market_uid, ProductClass(name: productName,price: productPrice,additionalInfo: additionalInfo));
+            await MarketDatabase().addProductToMarket(marketUid, ProductClass(name: productName,price: productPrice,additionalInfo: additionalInfo));
             }
           else{
             setState(() {
@@ -209,5 +180,6 @@ class _AddNewProductState extends State<AddNewProduct> {
         ),
       ),
     ));
+    }
   }
 }
