@@ -44,6 +44,9 @@ class _FireMapState extends State<FireMap> {
       return Loading();
     } else {
       return Scaffold(
+        appBar: AppBar(
+          title: Text('Choose Market Location'),
+        ),
         body: Stack(
           children: [
             GoogleMap(

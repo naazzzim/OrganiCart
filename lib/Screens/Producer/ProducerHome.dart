@@ -61,7 +61,7 @@ class _ProducerHomeState extends State<ProducerHome> {
             }),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: Icon(Icons.add_business),
         onPressed: (){
           Navigator.pushNamed(context, AddNewMarket.id,arguments: widget.user.name);
         },

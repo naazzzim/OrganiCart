@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../Theme.dart';
 
-class OrderDetails extends StatefulWidget {
-  static String id = 'OrderDetails';
+class CustomerOrderDetails extends StatefulWidget {
+  static String id = 'CustomerOrderDetails';
   @override
-  _OrderDetailsState createState() => _OrderDetailsState();
+  _CustomerOrderDetailsState createState() => _CustomerOrderDetailsState();
 }
 
-class _OrderDetailsState extends State<OrderDetails> {
+class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
   OrderClass order;
 
   @override
@@ -19,6 +19,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Order Details'),
+
       ),
 
       body: Container(
@@ -27,38 +28,38 @@ class _OrderDetailsState extends State<OrderDetails> {
             itemBuilder: (context,index){
               if(index == 0)
                 return ListTile(
-                  title: Text('Customer Name : ' + order.customerName),
+                  title: Text('MarketName : ' + order.marketName),
                 );
-                  if(index == 1)
-              return ListTile(
-              title: Text('Location : Location user user user'),
-              );
-                  if(index == 2)
-                    return  Container(
-                      height: 100,
-                      child: Column(
-                        children: [
-                          Spacer(),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(20,0,0,0),
-                              child: Text('Products',
-                              style: TextStyle(
+              if(index == 1)
+                return ListTile(
+                  title: Text('Location : Location user user user'),
+                );
+              if(index == 2)
+                return  Container(
+                  height: 100,
+                  child: Column(
+                    children: [
+                      Spacer(),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20,0,0,0),
+                          child: Text('Products',
+                            style: TextStyle(
                                 fontSize: 20
-                              ),),
-                            ),
-                          ),
-                          Spacer(),
-                          Divider(
-                            color: LightTheme.greenAccent,
-                            thickness: 4,
-                          ),
-                          Spacer(),
-                        ],
+                            ),),
+                        ),
                       ),
-                    );
-                    index = index-3;
+                      Spacer(),
+                      Divider(
+                        color: LightTheme.greenAccent,
+                        thickness: 4,
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                );
+              index = index-3;
 
               if(index == order.order.length)
                 return Container(
@@ -102,6 +103,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                 trailing: Text('Amount : ' + order.order[index]['Quantity']),
               );
             }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.done),
+        onPressed: (){
+
+        },
       ),
     );
   }

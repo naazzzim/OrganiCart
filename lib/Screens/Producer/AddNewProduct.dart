@@ -30,7 +30,7 @@ class _AddNewProductState extends State<AddNewProduct> {
     if (loading) {
       return Loading();
     } else {
-      return SafeArea(child: Scaffold(
+      return Scaffold(
       appBar: AppBar(
         title: Text('Add a Product'),
       ),
@@ -179,7 +179,7 @@ class _AddNewProductState extends State<AddNewProduct> {
           Icons.done,
         ),
       ),
-    ));
+    );
     }
   }
 }
