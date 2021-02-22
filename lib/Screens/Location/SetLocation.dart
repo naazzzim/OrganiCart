@@ -59,7 +59,7 @@ class _SetLocationState extends State<SetLocation> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Choose Market Location'),
+          title: Text('Choose Location'),
         ),
         body: Stack(
           children: [

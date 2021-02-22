@@ -39,7 +39,7 @@ class _ViewLocationState extends State<ViewLocation> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Choose Market Location'),
+          title: Text('View Location'),
         ),
         body: Stack(
           children: [
