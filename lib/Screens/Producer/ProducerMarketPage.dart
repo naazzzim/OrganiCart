@@ -185,7 +185,11 @@ class _ProducerMarketPageState extends State<ProducerMarketPage> {
                   }
 
                   for(DocumentSnapshot doc in snapshot.data.documents){
-                    orders.add(OrderClass(customerName: doc['Name'],order: doc['Order'],timeStamp: doc['TimeStamp']));
+                    orders.add(OrderClass(
+                        customerName: doc['Name'],
+                        order: doc['Order'],
+                        timeStamp: doc['TimeStamp'],
+                        geohash: doc['Location']['geohash'],geopoint: doc['Location']['geopoint']));
                   }
 
               return Container(

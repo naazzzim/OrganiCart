@@ -19,6 +19,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     order = ModalRoute.of(context).settings.arguments;
+    print(order.geopoint);
     for(Map<dynamic,dynamic> element in order.order){
       totalPrice += double.parse(element['TotalPrice']);
     }
@@ -40,6 +41,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   child: SizedBox(
                     width: width - 30,
                     child: FlatButton(onPressed: (){
+                      print(order.geopoint.latitude);
                       Navigator.pushNamed(context, ViewLocation.id,
                           arguments: Marker(
                               position: LatLng(order.geopoint.latitude, order.geopoint.longitude),
