@@ -297,3 +297,25 @@ class _SignInState extends State<SignIn> {
         ));
   }
 }
+//return Scaffold(
+//backgroundColor: LightTheme.white,
+//body: Container(
+//child: Center(
+//child: ShaderMask(
+//blendMode: BlendMode.srcIn,
+//shaderCallback: (bounds){
+//return LinearGradient(
+//begin: Alignment.bottomLeft,
+//end: Alignment.topRight,
+//colors: [const Color(0xff00c9ff),const Color(0xff92fe9d)]
+//).createShader(bounds);
+//},
+////            blendMode: BlendMode.colorBurn,
+//child: Icon(
+//Icons.shopping_bag,
+//size: 300,
+//),
+//),
+//),
+//),
+//);
