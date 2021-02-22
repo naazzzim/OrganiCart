@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:farmerApp/Screens/Classes.dart';
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:farmerApp/Screens/Theme.dart';
@@ -23,11 +21,9 @@ class _SetLocationState extends State<SetLocation> {
   LatLng latLng;
   String geohash;
   GoogleMapController mapController;
-  CameraPosition _currentPosition;
   int i = 0;
   Geoflutterfire geo = Geoflutterfire();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  StreamSubscription subscription;
   double radius = 10;
   bool loading = true;
   LocationData pos;
@@ -36,12 +32,17 @@ class _SetLocationState extends State<SetLocation> {
   void initState() {
     location.getLocation().then((value) {
       setState(() {
-        if(widget.geoLocation != null){
-          myMarker = [Marker(
-              position: LatLng(widget.geoLocation.geopoint.latitude,widget.geoLocation.geopoint.longitude),
-              icon: BitmapDescriptor.defaultMarker,
-              markerId: MarkerId(widget.geoLocation.geohash),
-              infoWindow: InfoWindow(title: " New Market",))];
+        if (widget.geoLocation != null) {
+          myMarker = [
+            Marker(
+                position: LatLng(widget.geoLocation.geopoint.latitude,
+                    widget.geoLocation.geopoint.longitude),
+                icon: BitmapDescriptor.defaultMarker,
+                markerId: MarkerId(widget.geoLocation.geohash),
+                infoWindow: InfoWindow(
+                  title: " New Market",
+                ))
+          ];
         }
         pos = value;
         loading = false;
@@ -74,9 +75,6 @@ class _SetLocationState extends State<SetLocation> {
               zoomControlsEnabled: true,
               cameraTargetBounds: CameraTargetBounds.unbounded,
               buildingsEnabled: true,
-              onCameraMove: (CameraPosition position) {
-                _setCurrentPosition(position);
-              },
               markers: Set.from(myMarker),
             ),
             Positioned(
@@ -94,12 +92,17 @@ class _SetLocationState extends State<SetLocation> {
             ),
             Positioned(
               bottom: 150,
-              left: width/4,
+              left: width / 4,
               child: FlatButton(
-                  onPressed: () async{
-                    if(myMarker.length > 0)
-                    Navigator.pop(context,GeoLocation(geopoint: GeoPoint(latLng.latitude,latLng.longitude),geohash: geohash));
-                },
+                  onPressed: () async {
+                    if (myMarker.length > 0)
+                      Navigator.pop(
+                          context,
+                          GeoLocation(
+                              geopoint:
+                                  GeoPoint(latLng.latitude, latLng.longitude),
+                              geohash: geohash));
+                  },
                   color: LightTheme.greenAccent,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
@@ -107,16 +110,19 @@ class _SetLocationState extends State<SetLocation> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.location_on),
-                        SizedBox(width: 10.0,),
-                        Text('Use Marked Location',
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          'Use Marked Location',
                           style: TextStyle(
                               color: LightTheme.darkGray,
                               fontWeight: FontWeight.w300,
-                              fontSize: 14) ,),
+                              fontSize: 14),
+                        ),
                       ],
                     ),
-                  )
-              ),
+                  )),
             )
           ],
         ),
@@ -127,13 +133,18 @@ class _SetLocationState extends State<SetLocation> {
   _addMarker(LatLng position) {
     setState(() {
       latLng = position;
-      GeoFirePoint point = geo.point(latitude: position.latitude, longitude: position.longitude);
+      GeoFirePoint point =
+          geo.point(latitude: position.latitude, longitude: position.longitude);
       geohash = point.data['geohash'];
-      myMarker = [ Marker(
-          position: LatLng(point.latitude, point.longitude),
-          icon: BitmapDescriptor.defaultMarker,
-          markerId: MarkerId(point.data['geohash']),
-          infoWindow: InfoWindow(title: " New Market",))];
+      myMarker = [
+        Marker(
+            position: LatLng(point.latitude, point.longitude),
+            icon: BitmapDescriptor.defaultMarker,
+            markerId: MarkerId(point.data['geohash']),
+            infoWindow: InfoWindow(
+              title: " New Market",
+            ))
+      ];
     });
   }
 
@@ -141,10 +152,6 @@ class _SetLocationState extends State<SetLocation> {
     setState(() {
       mapController = controller;
     });
-  }
-
-  void _setCurrentPosition(CameraPosition position) {
-    _currentPosition = position;
   }
 
   _updateQuery(value) {
@@ -163,8 +170,7 @@ class _SetLocationState extends State<SetLocation> {
 
   @override
   void dispose() {
-    subscription.cancel();
-    // TODO: implement dispose
+    mapController.dispose();
     super.dispose();
   }
 }

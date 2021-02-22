@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:farmerApp/Screens/Loading.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ViewLocation extends StatefulWidget {
   static String id = 'ViewLocation';
@@ -14,15 +11,11 @@ class ViewLocation extends StatefulWidget {
 }
 
 class _ViewLocationState extends State<ViewLocation> {
-  bool markerset = false;
   Location location = new Location();
   List<Marker> myMarker = [];
   GoogleMapController mapController;
-  CameraPosition _currentPosition;
   int i = 0;
   Geoflutterfire geo = Geoflutterfire();
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  StreamSubscription subscription;
   double radius = 10;
   bool loading = true;
   LocationData pos;
@@ -61,9 +54,6 @@ class _ViewLocationState extends State<ViewLocation> {
               zoomControlsEnabled: true,
               cameraTargetBounds: CameraTargetBounds.unbounded,
               buildingsEnabled: true,
-              onCameraMove: (CameraPosition position) {
-                _setCurrentPosition(position);
-              },
               markers: Set.from(myMarker),
             ),
             Positioned(
@@ -91,12 +81,6 @@ class _ViewLocationState extends State<ViewLocation> {
     });
   }
 
-  void _setCurrentPosition(CameraPosition position) {
-    _currentPosition = position;
-  }
-
-
-
   _updateQuery(value) {
     final zoomMap = {
       10.0: 14.0,
@@ -113,8 +97,7 @@ class _ViewLocationState extends State<ViewLocation> {
 
   @override
   void dispose() {
-    subscription.cancel();
-    // TODO: implement dispose
+    mapController.dispose();
     super.dispose();
   }
 }

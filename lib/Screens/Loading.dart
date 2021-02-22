@@ -9,15 +9,14 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
           backgroundColor: LightTheme.starWhite,
           body: Center(
               child: SpinKitRotatingCircle(
-                color: LightTheme.greenAccent,
-                size: 50.0,
-              )
-          )
-      ),
+            color: LightTheme.greenAccent,
+            size: 50.0,
+          ))),
     );
   }
 }

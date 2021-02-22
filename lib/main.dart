@@ -60,6 +60,7 @@ class _FarmerAppState extends State<FarmerApp> {
       //Page when there is no internet
 
       return MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: Scaffold(
               appBar: AppBar(
                 backgroundColor: Color(0xff4DD172),
@@ -76,7 +77,8 @@ class _FarmerAppState extends State<FarmerApp> {
     }
 
     return MaterialApp(
-      theme:ThemeData(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
         cursorColor: LightTheme.greenAccent,
         splashColor: LightTheme.greenAccent,
         textSelectionColor: LightTheme.greenAccent,
